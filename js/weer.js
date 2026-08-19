@@ -83,7 +83,7 @@ function buitenAdvies(score, gevoel, wind) {
     return 'Wisselvallig. Een korte wandeling zit er wel in tussen de buien door.';
   }
   if (gevoel < 2) return 'Koud buiten. Binnen knutselen is nu waarschijnlijk fijner.';
-  return 'Geen weer om lang buiten te zijn — hieronder staan binnen-ideeën.';
+  return 'Geen weer om lang buiten te zijn — binnen is nu fijner.';
 }
 
 /** Zoek in de komende 12 uur het beste blok om buiten te zijn. */

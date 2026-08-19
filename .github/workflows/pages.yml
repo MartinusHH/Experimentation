@@ -1,8 +1,17 @@
+# Zet de app op GitHub Pages.
+#
+# Eén keer handmatig aanzetten: Settings → Pages → Source: "GitHub Actions".
+# De workflow-token mag Pages niet zelf aanmaken, dus zonder die klik faalt de
+# eerste stap. Daarna publiceert elke push naar main automatisch.
+#
+# Wil je publiceren vanaf een andere branch zonder Actions: Settings → Pages →
+# "Deploy from a branch" en kies die branch. Dan heb je deze workflow niet nodig.
+
 name: Publiceer op GitHub Pages
 
 on:
   push:
-    branches: [main, claude/activity-suggestion-app-757w5h]
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -29,8 +38,6 @@ jobs:
           cp -r index.html styles.css manifest.json sw.js js icons _site/
 
       - uses: actions/configure-pages@v5
-        with:
-          enablement: true
 
       - uses: actions/upload-pages-artifact@v3
         with:

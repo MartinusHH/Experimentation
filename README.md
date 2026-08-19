@@ -50,9 +50,16 @@ npx http-server . -p 8080     # daarna http://localhost:8080
 Rechtstreeks `index.html` openen werkt ook, maar dan doet de service worker
 niets en weigert de browser je locatie — voor de volledige app heb je `http(s)` nodig.
 
-Bij elke push draait `.github/workflows/pages.yml` en komt de app op GitHub
-Pages te staan; de eerste keer zet die workflow Pages meteen aan. In *Settings →
-Pages* vind je daarna de URL — die open je op je telefoon en zet je op je beginscherm.
+**Op je telefoon zetten via GitHub Pages** — eenmalig instellen, daarna gaat het vanzelf:
+
+- *Snelste weg, werkt met elke branch:* **Settings → Pages → Source: Deploy from
+  a branch**, kies de branch en map `/ (root)`. Na een minuut staat de URL boven
+  aan diezelfde pagina.
+- *Via Actions:* zet **Source op "GitHub Actions"**. Daarna publiceert
+  `.github/workflows/pages.yml` elke push naar `main`. Die ene klik is nodig
+  omdat de workflow-token Pages niet zelf mag aanzetten.
+
+Open de URL op je telefoon en kies "Zet op beginscherm".
 
 ## Geld verdienen
 
