@@ -106,6 +106,19 @@ function besteBuitenmoment(hourly) {
   return beste && beste.score >= 40 && beste.kans <= 45 ? beste : null;
 }
 
+/** Zoek de plaatsnaam bij coördinaten, zodat "mijn locatie" een naam krijgt. */
+async function plaatsBijCoordinaten(lat, lon) {
+  try {
+    const url = `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=nl`;
+    const res = await fetch(url);
+    if (!res.ok) return null;
+    const d = await res.json();
+    return d.city || d.locality || d.principalSubdivision || null;
+  } catch {
+    return null;   // niet erg: dan heet het gewoon "jouw locatie"
+  }
+}
+
 /** Vraag de browser om je locatie (alleen als de gebruiker erop klikt). */
 function huidigeLocatie() {
   return new Promise((resolve, reject) => {

@@ -1,0 +1,16 @@
+{
+  "name": "Offline! — iets leukers dan je telefoon",
+  "short_name": "Offline!",
+  "description": "Persoonlijke suggesties voor wat je kunt doen in plaats van scrollen, met een dankbaarheidsdagboek dat je activiteiten vanzelf bijhoudt.",
+  "lang": "nl",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#faf6f0",
+  "theme_color": "#faf6f0",
+  "icons": [
+    { "src": "icons/icoon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icoon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}

@@ -25,7 +25,7 @@ function suggesties(opties) {
   const {
     interesses = [], tijd = 60, budget = 'investering',
     plek = 'egaal', sociaal = 'egaal', energie = 2,
-    weer = null, vermijd = [], favorieten = []
+    weer = null, vermijd = [], favorieten = [], plus = false
   } = opties;
 
   const buitenIsFijn = weer ? weer.buitenScore >= 60 : null;
@@ -82,12 +82,21 @@ function suggesties(opties) {
     }
     if (weer && a.plek === 'binnen' && buitenIsFijn === false) score += 10;
 
+    /* --- Offline+ ------------------------------------------------------ */
+    // Pakket-activiteiten blijven zichtbaar zonder abonnement, maar dringen
+    // zich niet op: ze staan net iets lager.
+    if (a.plus && !plus) score -= 8;
+
     /* --- variatie ------------------------------------------------------ */
     if (vermijd.includes(a.id)) score -= 45;
     if (favorieten.includes(a.id)) score += 12;
     score += Math.random() * 12;
 
-    return { activiteit: a, score, redenen: redenen.slice(0, 4), raak };
+    return {
+      activiteit: a, score, raak,
+      redenen: redenen.slice(0, 4),
+      vergrendeld: Boolean(a.plus && !plus)
+    };
   }).filter(Boolean);
 
   gescoord.sort((x, y) => y.score - x.score);

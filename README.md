@@ -1,58 +1,84 @@
 # 🌿 Offline!
 
-Een kleine web-app die je helpt bedenken wát je gaat doen in plaats van scrollen.
-Je vertelt waar je blij van wordt (kleding, verf, koken, natuur…), hoeveel tijd je hebt,
-of het gratis moet zijn en of je binnen of buiten wil — en je krijgt concrete ideeën terug,
-inclusief een eerste stap waar je meteen mee kunt beginnen.
+Een web-app die je helpt bedenken wát je gaat doen in plaats van scrollen — en
+die bijhoudt wat het je oplevert. Je vertelt waar je blij van wordt (kleding,
+verf, koken, natuur…), hoeveel tijd je hebt en of het gratis moet zijn; je
+krijgt concrete ideeën terug, met een eerste stap waar je meteen mee kunt beginnen.
 
-## Wat de app doet
+Geen build-stap, geen dependencies, geen account: gewone HTML, CSS en JavaScript.
 
-| Scherm | Wat je er vindt |
+## De vijf schermen
+
+| Scherm | Wat je er doet |
 | --- | --- |
-| **Ontdek** | Persoonlijke suggesties op basis van je smaak, je tijd, je budget, binnen/buiten, alleen/samen en je energie. Met "Verras me" voor één willekeurig idee. |
-| **Jouw smaak** | 18 interesses aanvinken en je woonplaats invullen. |
-| **Weer & buiten** | Actueel weerbericht (Open-Meteo), een "buiten-gevoel" van 0–100, het beste moment van de dag om naar buiten te gaan, en suggesties die daarbij passen. |
-| **In de buurt** | Zoekingangen naar uitagenda's, workshops, wandelroutes, Repair Cafés, buurthuizen, markten en sportclubs in jouw plaats. |
-| **Logboek** | Telefoonvrije minuten, wat je hebt gedaan en wat je bewaarde voor later. |
+| **Vandaag** | Het weer in één regel, één idee dat nu past, en of je vandaag al iets hebt geschreven. Drie knoppen voor hoeveel tijd je hebt. |
+| **Ontdek** | Alle suggesties. De filters zitten in een blad achter *Verfijn*, zodat het scherm kort blijft. 🎲 geeft één willekeurig idee. |
+| **Dagboek** | Eén bladzijde per dag: drie dingen waar je dankbaar voor bent, je stemming, een notitie — en automatisch wat je die dag hebt gedaan. |
+| **Buurt** | Zeven ingangen naar wat er in jouw plaats te doen is: uitagenda, workshops, wandelroutes, Repair Café, buurthuis, markten, sportclubs. |
+| **Ik** | Je interesses, je plaats, je cijfers, Offline+ en het opruimen van je gegevens. |
 
-Bij elk idee zit een timer ("Ik ga dit doen") die je telefoonvrije tijd bijhoudt en na afloop
-in je logboek zet.
+Details staan altijd in een blad dat omhoog komt (idee, filters, weer, archief,
+Offline+), nooit als extra rij op het scherm zelf. Alle knoppen hebben dezelfde
+hoogte, alle chips ook.
 
-## Zelf draaien
+## Het dagboek
 
-Geen build-stap, geen dependencies — het is gewone HTML, CSS en JavaScript.
+Elke bladzijde hoort bij een datum en heeft een bladzijdenummer dat meetelt
+zodra er iets op staat. Wat je met de timer afrondt, komt vanzelf op de
+bladzijde van die dag te staan — je hoeft dus nooit te onthouden wat je deed.
+Je reeks (🔥) telt de dagen op rij waarop je iets deed of schreef.
+
+## Wat er online gebeurt
+
+Alles staat op je eigen toestel. Naar buiten gaan alleen:
+
+- **het weerbericht** — [Open-Meteo](https://open-meteo.com), geen sleutel of account;
+- **de plaatsnaam bij je locatie** — alleen als je op 📍 tikt;
+- **de zoeklinks** — pas als je er zelf op klikt;
+- **het activeren van Offline+** — alleen als je een licentiesleutel invoert.
+
+Het weerbericht wordt een half uur bewaard, en als je offline bent gebruikt de
+app het laatste bericht dat hij had. Dankzij de service worker (`sw.js`) werkt
+de app zelf ook zonder verbinding, en je kunt hem op je beginscherm zetten.
+
+## Draaien en publiceren
 
 ```bash
-# open index.html rechtstreeks in je browser, of:
 npx http-server . -p 8080     # daarna http://localhost:8080
 ```
 
-Wil je het op je telefoon gebruiken: zet de map op GitHub Pages
-(*Settings → Pages → Deploy from a branch*) en open de URL op je toestel.
-Je kunt hem dan aan je beginscherm toevoegen.
+Rechtstreeks `index.html` openen werkt ook, maar dan doet de service worker
+niets en weigert de browser je locatie — voor de volledige app heb je `http(s)` nodig.
 
-## Privacy
+Bij elke push draait `.github/workflows/pages.yml` en komt de app op GitHub
+Pages te staan; de eerste keer zet die workflow Pages meteen aan. In *Settings →
+Pages* vind je daarna de URL — die open je op je telefoon en zet je op je beginscherm.
 
-Je interesses, plaats, favorieten en logboek staan in `localStorage` van je eigen browser.
-Er is geen server en geen account. Alleen twee dingen gaan naar buiten, en alleen als je
-erop klikt: het weerbericht (Open-Meteo, geen sleutel of registratie nodig) en de zoeklinks
-die je in een nieuw tabblad opent.
+## Geld verdienen
+
+Drie bronnen, allemaal al ingebouwd en uit te zetten met één regel configuratie
+in `js/betaling.js`: affiliate-links op de materialen van een idee, het
+abonnement **Offline+** (€2,99 p/m) voor extra pakketten, archief en export, en
+betaalde plekken voor lokale workshops in het buurt-scherm.
+De afwegingen, de cijfers en de stappen staan in **[docs/verdienmodel.md](docs/verdienmodel.md)**.
 
 ## Hoe het in elkaar zit
 
 ```
-index.html      de vijf schermen
-styles.css      pasteltinten, licht én donker
-js/data.js      de activiteitenbibliotheek (81 activiteiten, 18 interesses)
-js/engine.js    de suggestie-motor: filtert hard, scoort zacht
-js/weer.js      Open-Meteo + het "buiten-gevoel"
-js/buurt.js     de bronnen voor activiteiten in de buurt
-js/app.js       schermen tekenen, opslag, timer
+index.html        de vijf schermen, de bladen en de wizard
+styles.css        pasteltinten, één maat knoppen, licht én donker
+manifest.json     zodat de app op je beginscherm past
+sw.js             cache van de app zelf, zodat het offline werkt
+js/data.js        91 activiteiten, 18 interesses, 10 Offline+-pakketten
+js/engine.js      de suggestie-motor: filtert hard, scoort zacht
+js/weer.js        Open-Meteo, het "buiten-gevoel" en het beste moment
+js/buurt.js       de bronnen voor activiteiten in de buurt
+js/betaling.js    affiliate, Offline+ en de partnerplekken
+js/dagboek.js     bladzijden, reeks, archief en export
+js/app.js         schermen, bladen, timer en opslag
 ```
 
 ### Zelf een activiteit toevoegen
-
-Zet er een blok bij in `js/data.js`:
 
 ```js
 {
@@ -67,13 +93,13 @@ Zet er een blok bij in `js/data.js`:
   sociaal: 'alleen',                   // 'alleen' | 'samen' | 'beide'
   energie: 1,                          // 1 rustig … 3 actief
   weerAfhankelijk: false,              // alleen voor buiten-activiteiten
-  benodigdheden: ['Naald', 'Draad'],
+  benodigdheden: ['Naald', 'Draad'],   // worden de materiaal-links
   eersteStap: 'De kleinste stap die je nu kunt zetten.',
-  zoek: 'zoekterm voor uitleg'         // leeg laten = geen zoekknop
+  zoek: 'zoekterm voor uitleg',        // leeg laten = geen zoekknop
+  plus: false, pakket: ''              // true + pakketnaam = achter Offline+
 }
 ```
 
-De motor filtert eerst hard op tijd, budget, plek en gezelschap, en scoort daarna op
-interesse-overlap, hoe goed de duur je tijd vult, energie en het weer. Een beetje toeval
-zorgt dat je niet elke keer hetzelfde lijstje ziet, en "Iets anders" zet een idee tijdelijk
-onderaan.
+De motor filtert eerst hard op tijd, budget, plek en gezelschap, en scoort
+daarna op interesse-overlap, hoe goed de duur je tijd vult, energie en het weer.
+Een beetje toeval zorgt dat je niet elke keer hetzelfde lijstje ziet.

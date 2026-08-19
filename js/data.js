@@ -876,5 +876,125 @@ const ACTIVITEITEN = [
     benodigdheden: ['Naald', 'Draad'],
     eersteStap: 'Pak de sok met het gat en een draad die er ongeveer bij past.',
     zoek: 'sok stoppen uitleg'
+  },
+
+  /* ═══════════════════════════════ Offline+ pakketten ═══════════════════════
+     Deze staan achter het abonnement. Ze zijn erbij gekomen — er is niets
+     weggehaald bij de gratis versie. Zie js/betaling.js. */
+
+  /* --- pakket: met kinderen --- */
+  {
+    id: 'plus-schatkaart',
+    titel: 'Maak een echte schatkaart en verstop iets in het park',
+    pitch: 'Thee-vlekken, verbrande randen, een kruisje. De middag is zo om.',
+    pakket: 'Met kinderen', plus: true,
+    interesses: ['spellen', 'kunst', 'natuur'], tijd: 90, kosten: 'gratis', kostenIndicatie: '€0',
+    plek: 'beide', sociaal: 'samen', energie: 2, niveau: 'starter', weerAfhankelijk: true,
+    benodigdheden: ['Papier', 'Thee', 'Iets om te verstoppen'],
+    eersteStap: 'Zet thee, laat het papier erin weken en leg het te drogen.',
+    zoek: 'schatkaart maken kinderen'
+  },
+  {
+    id: 'plus-hut-bouwen',
+    titel: 'Bouw een hut van dekens (of van takken buiten)',
+    pitch: 'Binnen met de eettafel, buiten met wat je vindt. Daarna erin lezen.',
+    pakket: 'Met kinderen', plus: true,
+    interesses: ['spellen', 'klussen', 'natuur'], tijd: 60, kosten: 'gratis', kostenIndicatie: '€0',
+    plek: 'beide', sociaal: 'samen', energie: 3, niveau: 'starter',
+    benodigdheden: ['Dekens', 'Wasknijpers'],
+    eersteStap: 'Verzamel alle dekens in huis op één plek.',
+    zoek: 'hut bouwen kinderen ideeën'
+  },
+  {
+    id: 'plus-kinderkeuken',
+    titel: 'Laat de kinderen het avondeten bedenken én koken',
+    pitch: 'Jij bent hulpje. Het wordt rommelig en ze eten alles op.',
+    pakket: 'Met kinderen', plus: true,
+    interesses: ['koken', 'sociaal'], tijd: 90, kosten: 'klein', kostenIndicatie: '€10',
+    plek: 'binnen', sociaal: 'samen', energie: 2, niveau: 'starter',
+    benodigdheden: ['Boodschappen'],
+    eersteStap: 'Laat ze een menukaart tekenen voor je naar de winkel gaat.',
+    zoek: 'koken met kinderen simpele recepten'
+  },
+
+  /* --- pakket: samen --- */
+  {
+    id: 'plus-blind-date-stad',
+    titel: 'Doe een blinde stadsdate: dobbelsteen bepaalt de route',
+    pitch: 'Even = links, oneven = rechts. Waar je uitkomt, daar eet je.',
+    pakket: 'Samen', plus: true,
+    interesses: ['sociaal', 'cultuur', 'natuur'], tijd: 150, kosten: 'klein', kostenIndicatie: '€10–25',
+    plek: 'buiten', sociaal: 'samen', energie: 2, niveau: 'starter', weerAfhankelijk: true,
+    benodigdheden: ['Dobbelsteen', 'Goede schoenen'],
+    eersteStap: 'Spreek af bij een halte waar jullie nooit uitstappen.',
+    zoek: 'stadswandeling spel ideeën'
+  },
+  {
+    id: 'plus-vragenavond',
+    titel: 'Stel elkaar 20 vragen die je nooit stelt',
+    pitch: 'Telefoons in een la, één kaars aan, en beginnen bij vraag één.',
+    pakket: 'Samen', plus: true,
+    interesses: ['sociaal', 'welzijn'], tijd: 60, kosten: 'gratis', kostenIndicatie: '€0',
+    plek: 'binnen', sociaal: 'samen', energie: 1, niveau: 'starter',
+    benodigdheden: ['Kaars'],
+    eersteStap: 'Schrijf ieder vijf vragen op waar je zelf het antwoord niet van weet.',
+    zoek: 'diepe vragen gesprek ideeën'
+  },
+  {
+    id: 'plus-samen-project',
+    titel: 'Begin een project dat maanden duurt, samen',
+    pitch: 'Een moestuin, een fotoboek, een verbouwing van één hoek. Iets met een einde.',
+    pakket: 'Samen', plus: true,
+    interesses: ['klussen', 'tuin', 'huis'], tijd: 120, kosten: 'investering', kostenIndicatie: '€25+',
+    plek: 'beide', sociaal: 'samen', energie: 2, niveau: 'gevorderd',
+    benodigdheden: ['Schrift voor het plan'],
+    eersteStap: 'Schrijf ieder drie projecten op en kies de enige die op beide lijstjes staat.',
+    zoek: 'samen project ideeën lange termijn'
+  },
+
+  /* --- pakket: seizoenen --- */
+  {
+    id: 'plus-herfstverf',
+    titel: 'Maak verf van herfstbladeren en bessen',
+    pitch: 'Kleuren uit het bos: pletten, zeven, schilderen.',
+    pakket: 'Seizoenen', plus: true,
+    interesses: ['kunst', 'natuur', 'tuin'], tijd: 90, kosten: 'gratis', kostenIndicatie: '€0',
+    plek: 'beide', sociaal: 'beide', energie: 2, niveau: 'gevorderd', weerAfhankelijk: true,
+    benodigdheden: ['Vijzel of lepel', 'Zeefje', 'Papier'],
+    eersteStap: 'Verzamel op je wandeling drie soorten bladeren met verschillende kleuren.',
+    zoek: 'natuurlijke verf maken planten'
+  },
+  {
+    id: 'plus-winterlicht',
+    titel: 'Maak lichtjes voor de donkere maanden',
+    pitch: 'Waxinelichthouders van glazen potten en oud papier. Kost niets, scheelt veel.',
+    pakket: 'Seizoenen', plus: true,
+    interesses: ['huis', 'kunst', 'welzijn'], tijd: 60, kosten: 'klein', kostenIndicatie: '€5',
+    plek: 'binnen', sociaal: 'beide', energie: 1, niveau: 'starter',
+    benodigdheden: ['Glazen potjes', 'Vloeipapier', 'Lijm'],
+    eersteStap: 'Was drie lege potjes en trek de etiketten eraf.',
+    zoek: 'waxinelichthouder maken zelf'
+  },
+  {
+    id: 'plus-zomeravond',
+    titel: 'Eet buiten op een plek waar je nooit eet',
+    pitch: 'Balkon, park, dak, berm. Een kleedje en wat je in huis hebt.',
+    pakket: 'Seizoenen', plus: true,
+    interesses: ['koken', 'natuur', 'sociaal'], tijd: 90, kosten: 'klein', kostenIndicatie: '€8',
+    plek: 'buiten', sociaal: 'beide', energie: 2, niveau: 'starter', weerAfhankelijk: true,
+    benodigdheden: ['Kleedje', 'Eten'],
+    eersteStap: 'Kijk bij Weer & buiten wanneer het vanavond droog is.',
+    zoek: 'picknick ideeën simpel'
+  },
+  {
+    id: 'plus-jaaroverzicht',
+    titel: 'Maak een jaaroverzicht van je dagboek',
+    pitch: 'Lees je bladzijden terug en kies per maand één zin die blijft.',
+    pakket: 'Seizoenen', plus: true,
+    interesses: ['schrijven', 'welzijn'], tijd: 60, kosten: 'gratis', kostenIndicatie: '€0',
+    plek: 'binnen', sociaal: 'alleen', energie: 1, niveau: 'starter',
+    benodigdheden: ['Je dagboek'],
+    eersteStap: 'Open je archief en begin bij de oudste bladzijde.',
+    zoek: ''
   }
 ];
