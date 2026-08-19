@@ -47,6 +47,11 @@ const PLUS_VOORDELEN = [
 /* ─────────────────────────────────────────── plan-status ── */
 
 function heeftPlus(state) {
+  // Is er een account, dan is de server de baas over de rechten; pas daarna
+  // kijken we naar de licentie op dit toestel. Zie js/cloud.js en docs/account.md.
+  const rechten = state.account && state.account.rechten;
+  if (rechten && rechten.plusTot && new Date(rechten.plusTot) > new Date()) return true;
+
   if (state.plan === 'plus' && (!state.plusTot || new Date(state.plusTot) > new Date())) return true;
   return proefDagenOver(state) > 0;
 }
@@ -67,6 +72,10 @@ function startProef(state) {
 }
 
 function planOmschrijving(state) {
+  const rechten = state.account && state.account.rechten;
+  if (rechten && rechten.plusTot && new Date(rechten.plusTot) > new Date()) {
+    return `Offline+ via je account, tot ${new Date(rechten.plusTot).toLocaleDateString('nl-NL')}`;
+  }
   if (state.plan === 'plus') {
     return state.plusTot
       ? `Offline+ actief tot ${new Date(state.plusTot).toLocaleDateString('nl-NL')}`

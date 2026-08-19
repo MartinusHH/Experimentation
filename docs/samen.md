@@ -37,7 +37,10 @@ staat al in de app en bepaalt nu al welke ideeën je krijgt.
 
 ### Wat je minimaal nodig hebt
 
-Eén tabel op een gratis Supabase- of Cloudflare-plan. Meer niet:
+Eén verzameling in dezelfde Firebase die je voor de accounts gebruikt
+(zie [account.md](account.md)) — en de aanroepen ervoor staan al klaar in
+`js/cloud.js`: `plaatsOpenUitnodiging()` en `zoekInBuurt()`. Meer dan dit heb je
+niet nodig:
 
 | veld | inhoud | waarom zo |
 | --- | --- | --- |
@@ -47,12 +50,15 @@ Eén tabel op een gratis Supabase- of Cloudflare-plan. Meer niet:
 | `gebied` | postcode-4 of een geohash-vak van ~2 km | **nooit** een exact adres |
 | `plek` | een openbare plek, vrij in te vullen | station, park, buurthuis |
 | `naam`, `avatar` | voornaam + optionele foto | geen achternaam nodig |
-| `apparaat_sleutel` | willekeurige uuid in de browseropslag | identiteit zonder inlog |
+| `apparaat_sleutel` | `apparaatSleutel()` uit `js/opslag.js` | identiteit zonder inlog |
 | `verloopt` | datum + 1 dag | oude berichten ruimen zichzelf op |
 
 Matchen is dan gewoon een zoekopdracht: *geef de open uitnodigingen in mijn
 gebiedsvakken, in de komende zeven dagen, bij mijn interesses.* Geen algoritme,
-geen aanbevelingsmodel. Reken op twee tot vier dagen werk voor deze versie.
+geen aanbevelingsmodel. In Firestore is dat één `where`-query op `gebied` en
+`wanneer`. Reken op twee tot vier dagen werk voor deze versie — minder als de
+accounts uit [account.md](account.md) er dan al zijn, want dan heb je de
+inlog, de regels en de adapter al staan.
 
 ### Meedoen zonder chat te bouwen
 

@@ -47,6 +47,21 @@ uitnodigingen die je verstuurt en in de begroeting; je foto wordt op je toestel
 verkleind tot 256 px en gaat nergens heen. De schakelaar *"ik doe dingen graag
 samen"* zorgt dat je vaker ideeën krijgt waar een tweede persoon bij hoort.
 
+## Je gegevens meenemen
+
+Er is geen account nodig, dus je gegevens staan op je eigen toestel. Om te
+verhuizen maak je op het **Ik**-scherm een back-up: één bestand met je profiel,
+je dagboek, je plannen en je favorieten. Op het nieuwe toestel lees je dat
+bestand in — de app laat eerst zien wát erbij komt en **voegt het samen** in
+plaats van te overschrijven. Beschreef je dezelfde dag op beide toestellen, dan
+wint de versie die het laatst is bijgewerkt.
+
+Inloggen met Google, synchroniseren en een abonnement dat van de server komt,
+zijn voorbereid maar nog niet aangesloten: alles loopt via één laag
+(`js/cloud.js`), en zolang die leeg is verandert er niets aan de app — er staat
+dan ook geen inlogknop in beeld. Het stappenplan om het aan te zetten staat in
+**[docs/account.md](docs/account.md)**.
+
 ## Wat er online gebeurt
 
 Alles staat op je eigen toestel. Naar buiten gaan alleen:
@@ -105,6 +120,8 @@ js/data.js        91 activiteiten, 18 interesses, 10 Offline+-pakketten
 js/engine.js      de suggestie-motor: filtert hard, scoort zacht
 js/weer.js        Open-Meteo, het "buiten-gevoel" en het beste moment
 js/buurt.js       de bronnen voor activiteiten in de buurt
+js/opslag.js      lezen, schrijven, migratie, back-up en samenvoegen
+js/cloud.js       de naad voor account, synchronisatie en abonnement (uit)
 js/betaling.js    affiliate, Offline+ en de partnerplekken
 js/advertenties.js advertentieplekken, toestemming en eigen advertenties
 js/samen.js       uitnodigingen als link, plannen en je profielfoto

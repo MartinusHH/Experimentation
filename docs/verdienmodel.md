@@ -108,12 +108,18 @@ app als deze; met een proefperiode van 14 dagen eerder 4% dan 2%):
 Tel dat op bij de advertenties hierboven: bij 5.000 gebruikers zit je zo rond
 de €750–1.500 per maand, zonder één lokale partner.
 
-**Eerlijk over de bescherming:** de app kent geen account, dus het plan staat in
-de browseropslag. Wie dat wil, kan Offline+ aanzetten zonder te betalen. Bij
-€2,99 is dat een prima ruil — de kosten van een inlogsysteem en een server zijn
-hoger dan wat je aan omzeilers verliest. Wil je het toch dichttimmeren, dan is
-de kleinste stap: de licentiesleutel bij elke start opnieuw laten valideren en
-het aantal activaties per sleutel beperken (dat kan Lemon Squeezy zelf).
+**Eerlijk over de bescherming:** de app kent nog geen account, dus het plan staat
+in de browseropslag. Wie dat wil, kan Offline+ aanzetten zonder te betalen. Bij
+€3 is dat voorlopig een prima ruil — een inlogsysteem kost je meer dan wat je aan
+omzeilers verliest.
+
+De echte oplossing is rechten die van de server komen, en die is voorbereid:
+`heeftPlus()` kijkt eerst naar `state.account.rechten` en pas daarna naar de
+licentie op het toestel. Het stappenplan (Firebase, Google-login, webhook van
+Lemon Squeezy) staat in [account.md](account.md). Wil je het eerder dichttimmeren
+zonder accounts, dan is de kleinste stap: de licentiesleutel bij elke start
+opnieuw valideren en het aantal activaties per sleutel beperken — dat kan Lemon
+Squeezy zelf.
 
 ---
 

@@ -37,7 +37,8 @@ function maakPlan({ activiteitId, titel, datum, tijd, plaats, notitie, naam }) {
     activiteitId: activiteitId || '',
     titel, datum, tijd: tijd || '',
     plaats: plaats || '', notitie: notitie || '',
-    naam: naam || '', rol: 'ik', status: 'gaat'
+    naam: naam || '', rol: 'ik', status: 'gaat',
+    bijgewerkt: Date.now()
   };
 }
 
@@ -67,7 +68,8 @@ function planUitLink(hash) {
       plaats: String(d.p || '').slice(0, 60),
       notitie: String(d.o || '').slice(0, 240),
       naam: String(d.n || '').slice(0, 40),
-      rol: 'gast', status: 'open'
+      rol: 'gast', status: 'open',
+      bijgewerkt: Date.now()
     };
   } catch {
     return null;
@@ -77,6 +79,7 @@ function planUitLink(hash) {
 /* ─────────────────────────────────────────────── plannen ── */
 
 function bewaarPlan(state, plan) {
+  plan.bijgewerkt = Date.now();
   state.plannen = [plan, ...(state.plannen || []).filter((p) => p.id !== plan.id)].slice(0, 100);
 }
 

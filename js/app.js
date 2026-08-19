@@ -6,8 +6,6 @@
  * elk scherm kort genoeg om in één blik te overzien.
  */
 
-const OPSLAG_SLEUTEL = 'offline-app-v2';
-
 const STANDAARD = {
   interesses: [],
   plaats: '',
@@ -19,6 +17,7 @@ const STANDAARD = {
   profiel: { naam: '', foto: '', bio: '', samen: false, straal: 2 },
   plannen: [],
   advertentieToestemming: null,
+  account: { uid: '', email: '', naam: '', rechten: {} },
   plan: 'gratis',
   plusTot: null,
   proefTot: null,
@@ -37,25 +36,22 @@ let dagOpslagTimer = null;
 
 /* ═════════════════════════════════════════════════ opslag ══ */
 
-function laad() {
-  try {
-    const ruw = localStorage.getItem(OPSLAG_SLEUTEL);
-    if (!ruw) return { ...STANDAARD, filters: { ...STANDAARD.filters }, dagboek: {} };
-    const opgeslagen = JSON.parse(ruw);
-    return {
-      ...STANDAARD, ...opgeslagen,
-      filters: { ...STANDAARD.filters, ...(opgeslagen.filters || {}) },
-      profiel: { ...LEEG_PROFIEL, ...(opgeslagen.profiel || {}) },
-      plannen: opgeslagen.plannen || [],
-      dagboek: opgeslagen.dagboek || {}
-    };
-  } catch {
-    return { ...STANDAARD, filters: { ...STANDAARD.filters }, dagboek: {} };
-  }
-}
+/* Lezen en schrijven zit in js/opslag.js; dat is ook de plek waar later het
+   account bij komt. Hier staan alleen de twee namen die de rest gebruikt. */
 
-function bewaar() {
-  try { localStorage.setItem(OPSLAG_SLEUTEL, JSON.stringify(state)); } catch { /* privémodus */ }
+function laad() { return laadState(STANDAARD); }
+
+function bewaar() { bewaarState(state); }
+
+/** Wordt aangeroepen na elke bewaaractie; doet niets zolang er geen cloud is. */
+function synchroniseerAlsMogelijk(huidig) {
+  if (!cloudActief()) return;
+  const gebruiker = huidigeGebruiker();
+  if (!gebruiker) return;
+  clearTimeout(synchroniseerAlsMogelijk.wacht);
+  synchroniseerAlsMogelijk.wacht = setTimeout(() => {
+    duwState(gebruiker.uid, huidig).catch(() => { /* volgende keer beter */ });
+  }, CLOUD.syncPauze);
 }
 
 /* ═════════════════════════════════════════════════ helpers ══ */
@@ -829,7 +825,121 @@ function tekenIk() {
   $('#plaatsInput').value = state.plaats;
   $('#knopInstalleer').hidden = !installPrompt;
   tekenProfiel();
+  tekenAccountKaart();
   tekenPlusKaart();
+}
+
+/* ═══════════════════════════════════════ account & back-up ══ */
+
+function tekenAccountKaart() {
+  const gebruiker = cloudActief() ? huidigeGebruiker() : null;
+
+  $('#accountStatus').textContent = gebruiker
+    ? `Ingelogd als ${gebruiker.email}. Je gegevens staan ook in de cloud.`
+    : 'Alles staat op dit toestel. Maak een back-up voordat je van telefoon wisselt.';
+
+  // De inlogknop verschijnt pas als er een aanbieder is ingesteld (js/cloud.js).
+  $('#accountKnoppen').innerHTML = !cloudActief() ? ''
+    : gebruiker
+      ? '<button class="knop knop--vol knop--stil" id="knopUitloggen">Uitloggen</button>'
+      : '<button class="knop knop--primair knop--vol" id="knopInloggen">Inloggen met Google</button>';
+
+  const inlog = $('#knopInloggen');
+  if (inlog) inlog.addEventListener('click', async () => {
+    try {
+      await meldAanMetGoogle();
+      hertekenAlles();
+    } catch (fout) { toost(fout.message); }
+  });
+
+  const uitlog = $('#knopUitloggen');
+  if (uitlog) uitlog.addEventListener('click', async () => {
+    try {
+      await meldAf();
+      state.account = { uid: '', email: '', naam: '', rechten: {} };
+      bewaar();
+      hertekenAlles();
+    } catch (fout) { toost(fout.message); }
+  });
+
+  const melding = $('#opslagMelding');
+  melding.hidden = !opslagBijnaVol();
+  if (!melding.hidden) {
+    melding.textContent = 'Je opslag raakt vol. Maak een back-up en overweeg oude bladzijden te bewaren in dat bestand.';
+  }
+}
+
+$('#knopBackup').addEventListener('click', async () => {
+  const gelukt = await bewaarBestand(backupBestandsnaam(), maakBackup(state), 'application/json');
+  if (gelukt) toost('Back-up gemaakt');
+});
+
+$('#knopHerstel').addEventListener('click', () => $('#backupInvoer').click());
+
+$('#backupInvoer').addEventListener('change', async (e) => {
+  const bestand = e.target.files && e.target.files[0];
+  e.target.value = '';
+  if (!bestand) return;
+  try {
+    const backup = leesBackup(await bestand.text());
+    const telling = voegSamen(state, backup, true);   // eerst alleen tellen
+    toonHerstelBlad(backup, telling);
+  } catch (fout) {
+    toost(fout.message);
+  }
+});
+
+function toonHerstelBlad(backup, telling) {
+  const gemaakt = new Date(backup.gemaakt);
+  openBlad('Back-up terugzetten', `
+    <p class="uitleg">Gemaakt op ${gemaakt.toLocaleDateString('nl-NL')} om
+      ${gemaakt.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' })}.</p>
+    <div class="kaart kaart--zacht">
+      <b>${veilig(tellingInWoorden(telling))}</b>
+      <span class="uitleg">Wat je hier al hebt, blijft staan. Van een dag die in allebei
+        beschreven is, houden we de nieuwste versie.</span>
+    </div>
+    <div class="knoprij">
+      <button class="knop knop--primair knop--vol" id="herstelDoor">Voeg samen</button>
+      <button class="knop knop--stil knop--vol" data-sluit>Annuleer</button>
+    </div>`);
+
+  $('#herstelDoor').addEventListener('click', () => {
+    voegSamen(state, backup);
+    bewaar();
+    sluitBlad();
+    dagHuidig = dagSleutel();
+    hertekenAlles();
+    tekenDagboek();
+    toost('Back-up samengevoegd');
+  });
+}
+
+/**
+ * Schrijft een bestand weg. In de gewone app is dat een download; draait de
+ * app in een omgeving die downloads afhandelt (zoals de preview), dan gaat
+ * het daarlangs.
+ */
+async function bewaarBestand(naam, inhoud, type = 'text/plain;charset=utf-8') {
+  const viaOmgeving = window.claude && typeof window.claude.use === 'function'
+    ? await window.claude.use('downloads').catch(() => null)
+    : null;
+  if (viaOmgeving) {
+    try {
+      await viaOmgeving.save({ filename: naam, data: inhoud });
+      return true;
+    } catch (fout) {
+      toost(fout && fout.code === 'declined' ? 'Opslaan geannuleerd' : 'Opslaan lukte niet');
+      return false;
+    }
+  }
+  const url = URL.createObjectURL(new Blob([inhoud], { type }));
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = naam;
+  link.click();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  return true;
 }
 
 function tekenProfiel() {
@@ -927,24 +1037,17 @@ $('#knopPlaatsOpslaan').addEventListener('click', () => {
 
 $('#knopWissen').addEventListener('click', () => {
   if (!confirm('Alles wissen? Je interesses, dagboek, favorieten en logboek verdwijnen.')) return;
-  state = { ...STANDAARD, filters: { ...STANDAARD.filters }, dagboek: {}, plannen: [], profiel: { ...LEEG_PROFIEL } };
-  try { localStorage.removeItem(OPSLAG_SLEUTEL); } catch { /* niets */ }
+  wisAlles();
+  state = laad();
   weer = null;
   dagHuidig = dagSleutel();
   toonWizard();
 });
 
-$('#knopExport').addEventListener('click', () => {
+$('#knopExport').addEventListener('click', async () => {
   if (!heeftPlus(state)) return openPlusBlad();
-  const tekst = exporteerDagboek(state);
-  const bestand = new Blob([tekst], { type: 'text/plain;charset=utf-8' });
-  const url = URL.createObjectURL(bestand);
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = `offline-dagboek-${dagSleutel()}.txt`;
-  link.click();
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
-  toost('Dagboek geëxporteerd');
+  const gelukt = await bewaarBestand(`offline-dagboek-${dagSleutel()}.txt`, exporteerDagboek(state));
+  if (gelukt) toost('Dagboek geëxporteerd');
 });
 
 /* ═════════════════════════════════════════════ Offline+ ══ */
