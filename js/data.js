@@ -37,6 +37,7 @@ const ACTIVITEITEN = [
   /* ---------------------------------------------------------- kleding & naaien */
   {
     id: 'knoop-aanzetten',
+    bronnen: ['wikihow'],
     titel: 'Zet een losse knoop weer vast',
     pitch: 'De perfecte eerste naailes: klein, klaar binnen een half uur en je hebt meteen een kledingstuk terug.',
     interesses: ['kleding', 'huis'], tijd: 25, kosten: 'gratis', kostenIndicatie: '€0',
@@ -47,6 +48,7 @@ const ACTIVITEITEN = [
   },
   {
     id: 'naaien-leren',
+    bronnen: ['wikihow'],
     titel: 'Leer de basissteken met de hand naaien',
     pitch: 'Rijgsteek, stiksteek en overhandse steek. Met die drie kun je bijna alles repareren.',
     interesses: ['kleding'], tijd: 45, kosten: 'klein', kostenIndicatie: '€5–10 voor een naaisetje',
@@ -77,6 +79,7 @@ const ACTIVITEITEN = [
   },
   {
     id: 'naaimachine-cursus',
+    bronnen: ['volksuniversiteit'],
     titel: 'Volg een naaiworkshop in de buurt',
     pitch: 'Eén avond met iemand die het je voordoet scheelt maanden YouTube.',
     interesses: ['kleding', 'sociaal'], tijd: 150, kosten: 'investering', kostenIndicatie: '€35–75',
@@ -149,6 +152,7 @@ const ACTIVITEITEN = [
   },
   {
     id: 'keramiek-workshop',
+    bronnen: ['volksuniversiteit'],
     titel: 'Draai een kom op een pottenbakkersschijf',
     pitch: 'Handen in de klei, telefoon vies — dus die blijft in je tas.',
     interesses: ['kunst', 'sociaal'], tijd: 150, kosten: 'investering', kostenIndicatie: '€45–85',
@@ -223,6 +227,7 @@ const ACTIVITEITEN = [
   },
   {
     id: 'kruidentuin',
+    bronnen: ['zaaikalender'],
     titel: 'Begin een kruidentuintje op je vensterbank',
     pitch: 'Basilicum, munt en peterselie binnen handbereik — en elke dag even kijken hoe het gaat.',
     interesses: ['tuin', 'koken'], tijd: 45, kosten: 'klein', kostenIndicatie: '€10',
@@ -233,6 +238,7 @@ const ACTIVITEITEN = [
   },
   {
     id: 'moestuinbak',
+    bronnen: ['zaaikalender'],
     titel: 'Zet een moestuinbak op je balkon',
     pitch: 'Een project van maanden dat elke week iets te doen geeft.',
     interesses: ['tuin', 'klussen'], tijd: 150, kosten: 'investering', kostenIndicatie: '€30–70',
@@ -255,6 +261,7 @@ const ACTIVITEITEN = [
   /* ---------------------------------------------------------- hout & klussen */
   {
     id: 'plankje-maken',
+    bronnen: ['instructables', 'wikihow'],
     titel: 'Maak een wandplankje van steigerhout',
     pitch: 'Zagen, schuren, ophangen. Klaar op één zaterdag en je ziet het elke dag.',
     interesses: ['klussen', 'huis'], tijd: 180, kosten: 'investering', kostenIndicatie: '€20–40',
@@ -265,6 +272,7 @@ const ACTIVITEITEN = [
   },
   {
     id: 'meubel-opknappen',
+    bronnen: ['kringloop', 'wikihow'],
     titel: 'Knap een tweedehands meubel op',
     pitch: 'Schuren en beitsen: een kringloopkastje wordt jouw kastje.',
     interesses: ['klussen', 'huis', 'kunst'], tijd: 240, kosten: 'investering', kostenIndicatie: '€25–60',
@@ -275,6 +283,7 @@ const ACTIVITEITEN = [
   },
   {
     id: 'repareren',
+    bronnen: ['wikihow', 'repaircafe'],
     titel: 'Repareer dat ene kapotte ding',
     pitch: 'Die lamp, die la, die fietsbel. Eén ding minder op je "ooit"-lijstje.',
     interesses: ['klussen', 'techniek', 'huis'], tijd: 45, kosten: 'gratis', kostenIndicatie: '€0–10',
@@ -285,6 +294,7 @@ const ACTIVITEITEN = [
   },
   {
     id: 'repair-cafe',
+    bronnen: ['repaircafe'],
     titel: 'Ga naar een Repair Café met iets kapots',
     pitch: 'Gratis hulp van vrijwilligers, koffie erbij, en je leert het zelf ook.',
     interesses: ['klussen', 'techniek', 'sociaal'], tijd: 120, kosten: 'gratis', kostenIndicatie: '€0 (fooi welkom)',
@@ -297,6 +307,7 @@ const ACTIVITEITEN = [
   /* ---------------------------------------------------------- muziek */
   {
     id: 'instrument-leren',
+    bronnen: ['akkoorden'],
     titel: 'Leer één liedje op een instrument',
     pitch: 'Vier akkoorden en je kunt honderden nummers spelen.',
     interesses: ['muziek'], tijd: 45, kosten: 'gratis', kostenIndicatie: '€0 als je een instrument hebt',
@@ -369,6 +380,7 @@ const ACTIVITEITEN = [
   },
   {
     id: 'bibliotheek',
+    bronnen: ['bibliotheek'],
     titel: 'Loop de bibliotheek in en leen drie boeken op gevoel',
     pitch: 'Niet zoeken, alleen langs de kasten lopen en pakken wat je aanspreekt.',
     interesses: ['lezen', 'cultuur'], tijd: 60, kosten: 'gratis', kostenIndicatie: '€0–5 lidmaatschap',
@@ -423,6 +435,7 @@ const ACTIVITEITEN = [
   /* ---------------------------------------------------------- sport & beweging */
   {
     id: 'wandeling-rondje',
+    bronnen: ['wandelnet'],
     titel: 'Maak een wandeling zonder route',
     pitch: 'Bij elke kruising links of rechts op gevoel. Telefoon in je zak.',
     interesses: ['natuur', 'sport', 'welzijn'], tijd: 45, kosten: 'gratis', kostenIndicatie: '€0',
@@ -433,6 +446,7 @@ const ACTIVITEITEN = [
   },
   {
     id: 'lange-wandeling',
+    bronnen: ['wandelnet', 'natuurmonumenten', 'staatsbosbeheer'],
     titel: 'Loop een lange route in de natuur',
     pitch: 'Twee tot drie uur buiten doet meer dan welke app dan ook.',
     interesses: ['natuur', 'sport'], tijd: 180, kosten: 'gratis', kostenIndicatie: '€0–10 reiskosten',
@@ -453,6 +467,7 @@ const ACTIVITEITEN = [
   },
   {
     id: 'zwemmen',
+    bronnen: ['zwembad'],
     titel: 'Ga baantjes zwemmen',
     pitch: 'Water, geen telefoon, en je hoofd wordt leeg vanzelf.',
     interesses: ['sport', 'welzijn'], tijd: 75, kosten: 'klein', kostenIndicatie: '€5–8 entree',
@@ -483,6 +498,7 @@ const ACTIVITEITEN = [
   },
   {
     id: 'fietstocht',
+    bronnen: ['fietsknooppunten'],
     titel: 'Fiets een rondje van 20 kilometer',
     pitch: 'Ver genoeg om ergens te komen, kort genoeg om zomaar te doen.',
     interesses: ['sport', 'natuur'], tijd: 90, kosten: 'gratis', kostenIndicatie: '€0',
@@ -495,6 +511,7 @@ const ACTIVITEITEN = [
   /* ---------------------------------------------------------- natuur */
   {
     id: 'vogels-kijken',
+    bronnen: ['vogelgeluiden'],
     titel: 'Leer vijf vogels herkennen aan hun geluid',
     pitch: 'Daarna hoor je ze overal — en je luistert in plaats van te scrollen.',
     interesses: ['natuur', 'dieren'], tijd: 45, kosten: 'gratis', kostenIndicatie: '€0',
@@ -525,6 +542,7 @@ const ACTIVITEITEN = [
   },
   {
     id: 'sterrenkijken',
+    bronnen: ['sterrenkaart'],
     titel: 'Ga sterrenkijken op een donkere plek',
     pitch: 'Een half uur naar boven kijken zet alles even in verhouding.',
     interesses: ['natuur', 'welzijn'], tijd: 60, kosten: 'gratis', kostenIndicatie: '€0',
@@ -569,6 +587,7 @@ const ACTIVITEITEN = [
   /* ---------------------------------------------------------- puzzels & spellen */
   {
     id: 'legpuzzel',
+    bronnen: ['kringloop'],
     titel: 'Leg een puzzel op tafel en laat hem liggen',
     pitch: 'Elke keer als je langsloopt leg je vijf stukjes. Beter dan even je telefoon pakken.',
     interesses: ['spellen', 'welzijn'], tijd: 60, kosten: 'klein', kostenIndicatie: '€3 kringloop',
@@ -621,6 +640,7 @@ const ACTIVITEITEN = [
   },
   {
     id: 'vrijwilligerswerk',
+    bronnen: ['vrijwilligers', 'nldoet'],
     titel: 'Doe een paar uur vrijwilligerswerk',
     pitch: 'Voedselbank, maatjesproject, natuurwerkdag. Zinvol en je ontmoet mensen.',
     interesses: ['sociaal', 'natuur'], tijd: 180, kosten: 'gratis', kostenIndicatie: '€0',
@@ -735,6 +755,7 @@ const ACTIVITEITEN = [
   },
   {
     id: 'vogelhuisje',
+    bronnen: ['instructables'],
     titel: 'Timmer een vogelhuisje of insectenhotel',
     pitch: 'Knutselwerk met bewoners: over een paar weken zit er echt iets in.',
     interesses: ['dieren', 'klussen', 'natuur'], tijd: 120, kosten: 'klein', kostenIndicatie: '€10 hout',
@@ -747,6 +768,7 @@ const ACTIVITEITEN = [
   /* ---------------------------------------------------------- cultuur */
   {
     id: 'museum-uur',
+    bronnen: ['musea'],
     titel: 'Ga naar een museum en bekijk maar één zaal',
     pitch: 'Niet alles zien, wel echt kijken. Een uur is genoeg.',
     interesses: ['cultuur', 'kunst'], tijd: 120, kosten: 'investering', kostenIndicatie: '€0–17 (gratis met Museumkaart)',
@@ -829,6 +851,7 @@ const ACTIVITEITEN = [
   },
   {
     id: 'akkoord-oefenen',
+    bronnen: ['akkoorden'],
     titel: 'Oefen tien minuten één akkoordwissel',
     pitch: 'Elke dag tien minuten hetzelfde stukje: daar word je echt beter van.',
     interesses: ['muziek'], tijd: 15, kosten: 'gratis', kostenIndicatie: '€0',
@@ -996,5 +1019,417 @@ const ACTIVITEITEN = [
     benodigdheden: ['Je dagboek'],
     eersteStap: 'Open je archief en begin bij de oudste bladzijde.',
     zoek: ''
+  },
+
+  /* ═══════════════════════════════ tweede ronde activiteiten ═══════════════
+     Meer variatie: korte klusjes, dingen met je handen, dingen buiten, en
+     een paar die je maar één keer per jaar doet. */
+
+  /* --- kleding & handwerk --- */
+  {
+    id: 'sokken-breien',
+    titel: 'Leer breien met een simpele sjaal',
+    pitch: 'Twee naalden, één steek. Je kunt het voor de televisie doen en toch iets maken.',
+    interesses: ['kleding', 'welzijn'], tijd: 60, kosten: 'klein', kostenIndicatie: '€10 wol en naalden',
+    plek: 'binnen', sociaal: 'beide', energie: 1, niveau: 'starter',
+    bronnen: ['wikihow'],
+    benodigdheden: ['Breinaalden', 'Bol wol'],
+    eersteStap: 'Zet twintig steken op en brei tien rijen — hoe scheef ook.',
+    zoek: 'breien voor beginners sjaal'
+  },
+  {
+    id: 'kleding-verven',
+    titel: 'Verf een verkleurd kledingstuk opnieuw',
+    pitch: 'Die grijs geworden zwarte broek wordt weer zwart. Of juist knalgeel.',
+    interesses: ['kleding', 'kunst'], tijd: 90, kosten: 'klein', kostenIndicatie: '€8 textielverf',
+    plek: 'binnen', sociaal: 'alleen', energie: 2, niveau: 'starter',
+    benodigdheden: ['Textielverf', 'Zout', 'Emmer'],
+    eersteStap: 'Zoek een kledingstuk van katoen op — dat neemt verf het beste aan.',
+    zoek: 'kleding verven textielverf uitleg'
+  },
+  {
+    id: 'tas-van-shirt',
+    titel: 'Maak een boodschappentas van een oud t-shirt',
+    pitch: 'Knippen, onderkant dichtnaaien, klaar. Tien minuten en je hebt een tas.',
+    interesses: ['kleding', 'huis'], tijd: 25, kosten: 'gratis', kostenIndicatie: '€0',
+    plek: 'binnen', sociaal: 'beide', energie: 1, niveau: 'starter',
+    benodigdheden: ['Oud t-shirt', 'Schaar', 'Naald en draad'],
+    eersteStap: 'Knip de mouwen en de hals eruit; dat worden de hengsels.',
+    zoek: 'tas maken van t-shirt zonder naaimachine'
+  },
+
+  /* --- kunst --- */
+  {
+    id: 'stempel-aardappel',
+    titel: 'Snijd stempels uit een aardappel en bedruk papier',
+    pitch: 'Kinderlijk eenvoudig, verrassend mooi. Inpakpapier voor het hele jaar.',
+    interesses: ['kunst', 'huis'], tijd: 45, kosten: 'gratis', kostenIndicatie: '€0',
+    plek: 'binnen', sociaal: 'samen', energie: 1, niveau: 'starter',
+    benodigdheden: ['Aardappel', 'Mesje', 'Verf'],
+    eersteStap: 'Snijd een aardappel doormidden en teken er met een mes een vorm in.',
+    zoek: 'aardappelstempel maken'
+  },
+  {
+    id: 'collage-tijdschrift',
+    titel: 'Maak een collage van oude tijdschriften',
+    pitch: 'Scheuren, schuiven, plakken. Geen enkele beslissing is fout.',
+    interesses: ['kunst', 'welzijn'], tijd: 45, kosten: 'gratis', kostenIndicatie: '€0',
+    plek: 'binnen', sociaal: 'beide', energie: 1, niveau: 'starter',
+    benodigdheden: ['Oude tijdschriften', 'Lijm', 'Karton'],
+    eersteStap: 'Scheur twintig stukjes uit zonder na te denken over wat het wordt.',
+    zoek: 'collage maken tijdschrift ideeën'
+  },
+  {
+    id: 'krijt-stoep',
+    titel: 'Teken iets groots op de stoep met krijt',
+    pitch: 'Voor de deur, met of zonder kinderen. Weg met de eerste regen, en dat is prima.',
+    interesses: ['kunst', 'sociaal'], tijd: 30, kosten: 'klein', kostenIndicatie: '€3 stoepkrijt',
+    plek: 'buiten', sociaal: 'samen', energie: 2, niveau: 'starter', weerAfhankelijk: true,
+    benodigdheden: ['Stoepkrijt'],
+    eersteStap: 'Kijk waar de stoep het grootst en het gladst is.',
+    zoek: 'stoepkrijt ideeën tekenen'
+  },
+  {
+    id: 'zentangle',
+    titel: 'Vul een vel met patroontjes',
+    pitch: 'Streepje voor streepje. Je hoofd wordt er stil van en het staat op papier.',
+    interesses: ['kunst', 'welzijn'], tijd: 30, kosten: 'gratis', kostenIndicatie: '€0',
+    plek: 'beide', sociaal: 'alleen', energie: 1, niveau: 'starter',
+    benodigdheden: ['Papier', 'Fijne pen'],
+    eersteStap: 'Teken een kronkellijn over het vel en vul elk vak met een ander patroon.',
+    zoek: 'zentangle patronen beginners'
+  },
+
+  /* --- koken --- */
+  {
+    id: 'soep-restjes',
+    titel: 'Maak soep van alles wat over is',
+    pitch: 'Je koelkast leeg, je vriezer vol, en niets weggegooid.',
+    interesses: ['koken', 'huis'], tijd: 60, kosten: 'gratis', kostenIndicatie: '€0',
+    plek: 'binnen', sociaal: 'alleen', energie: 2, niveau: 'starter',
+    benodigdheden: ['Wat er in de koelkast ligt', 'Grote pan'],
+    eersteStap: 'Leg alle groente die niet lang meer goed is op het aanrecht.',
+    zoek: 'restjes soep recept'
+  },
+  {
+    id: 'pasta-zelf',
+    titel: 'Maak pasta van bloem en ei',
+    pitch: 'Twee ingrediënten en je handen. Het verschil met een pak is groter dan je denkt.',
+    interesses: ['koken'], tijd: 90, kosten: 'klein', kostenIndicatie: '€3',
+    plek: 'binnen', sociaal: 'samen', energie: 2, niveau: 'gevorderd',
+    bronnen: ['wikihow'],
+    benodigdheden: ['Bloem', 'Eieren', 'Deegroller'],
+    eersteStap: 'Honderd gram bloem per ei, kneden tot het niet meer plakt.',
+    zoek: 'verse pasta maken zonder machine'
+  },
+  {
+    id: 'ontbijt-plannen',
+    titel: 'Maak overnight oats voor de hele week',
+    pitch: 'Vijf potjes, tien minuten werk, en \'s ochtends geen gedoe.',
+    interesses: ['koken', 'welzijn'], tijd: 20, kosten: 'klein', kostenIndicatie: '€5',
+    plek: 'binnen', sociaal: 'alleen', energie: 1, niveau: 'starter',
+    benodigdheden: ['Havermout', 'Yoghurt of melk', 'Potjes'],
+    eersteStap: 'Zoek vijf schone potjes met een deksel.',
+    zoek: 'overnight oats recept variaties'
+  },
+  {
+    id: 'jam-maken',
+    titel: 'Kook jam van seizoensfruit',
+    pitch: 'De keuken ruikt uren goed, en je hebt maanden ontbijt.',
+    interesses: ['koken', 'tuin'], tijd: 90, kosten: 'klein', kostenIndicatie: '€8',
+    plek: 'binnen', sociaal: 'beide', energie: 2, niveau: 'starter',
+    benodigdheden: ['Fruit', 'Geleisuiker', 'Weckpotten'],
+    eersteStap: 'Kijk op de markt welk fruit nu het goedkoopst is — dat is het fruit van nu.',
+    zoek: 'jam maken geleisuiker recept'
+  },
+
+  /* --- tuin & natuur --- */
+  {
+    id: 'tegel-eruit',
+    titel: 'Haal een tegel uit je tuin en zet er iets groens voor terug',
+    pitch: 'Eén tegel is genoeg om te beginnen. Het regenwater en de bijen merken het.',
+    interesses: ['tuin', 'natuur', 'klussen'], tijd: 45, kosten: 'klein', kostenIndicatie: '€5 plantje',
+    plek: 'buiten', sociaal: 'beide', energie: 3, niveau: 'starter', weerAfhankelijk: true,
+    benodigdheden: ['Schep', 'Plantje'],
+    eersteStap: 'Zoek de tegel waar toch nooit iemand loopt.',
+    zoek: 'tegel eruit plant erin tuin vergroenen'
+  },
+  {
+    id: 'bloembollen',
+    titel: 'Poot bloembollen voor het voorjaar',
+    pitch: 'Een half uur werk nu, en in maart sta je te kijken.',
+    interesses: ['tuin', 'natuur'], tijd: 45, kosten: 'klein', kostenIndicatie: '€8 bollen',
+    plek: 'buiten', sociaal: 'beide', energie: 2, niveau: 'starter', weerAfhankelijk: true,
+    bronnen: ['zaaikalender'],
+    benodigdheden: ['Bloembollen', 'Schepje'],
+    eersteStap: 'Kijk welke plek in het voorjaar het eerst zon krijgt.',
+    zoek: 'bloembollen planten wanneer hoe diep'
+  },
+  {
+    id: 'paddenstoelen',
+    titel: 'Ga paddenstoelen zoeken (om te bekijken)',
+    pitch: 'Herfst, bos, en meer soorten dan je dacht. Niets plukken, alleen kijken.',
+    interesses: ['natuur', 'fotografie'], tijd: 120, kosten: 'gratis', kostenIndicatie: '€0',
+    plek: 'buiten', sociaal: 'beide', energie: 2, niveau: 'starter', weerAfhankelijk: true,
+    bronnen: ['natuurmonumenten'],
+    benodigdheden: ['Laarzen'],
+    eersteStap: 'Zoek een bos met veel oude bomen; daar staat het meest.',
+    zoek: 'paddenstoelen herkennen beginners'
+  },
+  {
+    id: 'blote-voeten',
+    titel: 'Loop een stuk op blote voeten door gras of zand',
+    pitch: 'Klinkt zweverig, voelt verrassend goed, kost tien minuten.',
+    interesses: ['natuur', 'welzijn'], tijd: 15, kosten: 'gratis', kostenIndicatie: '€0',
+    plek: 'buiten', sociaal: 'beide', energie: 1, niveau: 'starter', weerAfhankelijk: true,
+    benodigdheden: [],
+    eersteStap: 'Zoek het dichtstbijzijnde stuk gras waar geen honden komen.',
+    zoek: ''
+  },
+
+  /* --- klussen & techniek --- */
+  {
+    id: 'gereedschap-ordenen',
+    titel: 'Maak één lade of kast waar je gereedschap in past',
+    pitch: 'De helft van niet-klussen is niet kunnen vinden wat je nodig hebt.',
+    interesses: ['klussen', 'huis'], tijd: 60, kosten: 'gratis', kostenIndicatie: '€0',
+    plek: 'binnen', sociaal: 'alleen', energie: 2, niveau: 'starter',
+    benodigdheden: ['Doos', 'Doek'],
+    eersteStap: 'Kieper alles op de grond en leg drie stapels: houden, weg, hoort ergens anders.',
+    zoek: 'gereedschap opbergen ideeën'
+  },
+  {
+    id: 'kraan-repareren',
+    titel: 'Repareer een druppelende kraan',
+    pitch: 'Een rubbertje van vijftig cent en een half uur. Scheelt liters per dag.',
+    interesses: ['klussen', 'techniek', 'huis'], tijd: 45, kosten: 'klein', kostenIndicatie: '€3 leertjes',
+    plek: 'binnen', sociaal: 'alleen', energie: 2, niveau: 'gevorderd',
+    bronnen: ['wikihow'],
+    benodigdheden: ['Steeksleutel', 'Nieuwe leertjes'],
+    eersteStap: 'Draai eerst de hoofdkraan dicht — dat is echt stap één.',
+    zoek: 'druppelende kraan repareren leertje vervangen'
+  },
+  {
+    id: 'laptop-schoon',
+    titel: 'Maak je laptop of telefoon van binnen en buiten schoon',
+    pitch: 'Stof eruit, bestanden opgeruimd, meldingen uit. Voelt als een nieuw apparaat.',
+    interesses: ['techniek', 'huis', 'welzijn'], tijd: 45, kosten: 'gratis', kostenIndicatie: '€0',
+    plek: 'binnen', sociaal: 'alleen', energie: 1, niveau: 'starter',
+    benodigdheden: ['Doekje', 'Perslucht of kwastje'],
+    eersteStap: 'Zet hem uit en haal de stekker eruit voor je begint.',
+    zoek: 'laptop schoonmaken stof verwijderen'
+  },
+  {
+    id: 'oude-telefoon',
+    titel: 'Geef een oude telefoon een tweede leven',
+    pitch: 'Als wekker, keukentimer, muziekspeler of babyfoon — zonder simkaart.',
+    interesses: ['techniek', 'huis'], tijd: 60, kosten: 'gratis', kostenIndicatie: '€0',
+    plek: 'binnen', sociaal: 'alleen', energie: 1, niveau: 'starter',
+    benodigdheden: ['Oude telefoon'],
+    eersteStap: 'Zoek hem uit de la en zet hem aan de lader.',
+    zoek: 'oude telefoon hergebruiken ideeën'
+  },
+
+  /* --- muziek, lezen, schrijven --- */
+  {
+    id: 'afspeellijst-maken',
+    titel: 'Maak een afspeellijst voor iemand anders',
+    pitch: 'Zoals vroeger een cassettebandje: twaalf nummers en waarom je ze koos.',
+    interesses: ['muziek', 'sociaal'], tijd: 45, kosten: 'gratis', kostenIndicatie: '€0',
+    plek: 'binnen', sociaal: 'alleen', energie: 1, niveau: 'starter',
+    benodigdheden: [],
+    eersteStap: 'Bedenk voor wie, en schrijf het eerste nummer op papier.',
+    zoek: ''
+  },
+  {
+    id: 'voorlezen',
+    titel: 'Lees iemand hardop voor',
+    pitch: 'Een kind, je partner, of iemand die slecht ziet. Twintig minuten, meer niet.',
+    interesses: ['lezen', 'sociaal'], tijd: 30, kosten: 'gratis', kostenIndicatie: '€0',
+    plek: 'binnen', sociaal: 'samen', energie: 1, niveau: 'starter',
+    bronnen: ['bibliotheek'],
+    benodigdheden: ['Boek'],
+    eersteStap: 'Kies een verhaal dat je zelf mooi vindt — dat hoor je.',
+    zoek: 'voorleesboeken tips'
+  },
+  {
+    id: 'gedicht-uit-hoofd',
+    titel: 'Leer een gedicht uit je hoofd',
+    pitch: 'Ouderwets, en je hebt het de rest van je leven bij je.',
+    interesses: ['schrijven', 'lezen'], tijd: 30, kosten: 'gratis', kostenIndicatie: '€0',
+    plek: 'beide', sociaal: 'alleen', energie: 1, niveau: 'starter',
+    benodigdheden: ['Een gedicht'],
+    eersteStap: 'Schrijf het met de hand over; dat helpt meer dan het tien keer lezen.',
+    zoek: 'korte gedichten nederlands mooi'
+  },
+  {
+    id: 'levensverhaal',
+    titel: 'Vraag iemand van boven de zeventig naar vroeger',
+    pitch: 'Neem het op of schrijf het op. Over tien jaar is het onbetaalbaar.',
+    interesses: ['schrijven', 'sociaal'], tijd: 90, kosten: 'gratis', kostenIndicatie: '€0',
+    plek: 'binnen', sociaal: 'samen', energie: 1, niveau: 'starter',
+    benodigdheden: ['Schrift of recorder'],
+    eersteStap: 'Bel op en vraag: "Mag ik langskomen om iets te vragen over vroeger?"',
+    zoek: 'levensverhaal interview vragen ouderen'
+  },
+
+  /* --- sport & beweging --- */
+  {
+    id: 'trap-lopen',
+    titel: 'Loop tien minuten de trap op en af',
+    pitch: 'Geen sportschool, geen weer-excuus, en je merkt het meteen.',
+    interesses: ['sport'], tijd: 15, kosten: 'gratis', kostenIndicatie: '€0',
+    plek: 'binnen', sociaal: 'alleen', energie: 3, niveau: 'starter',
+    benodigdheden: [],
+    eersteStap: 'Zet een timer op tien minuten en begin rustig.',
+    zoek: 'traptraining thuis oefening'
+  },
+  {
+    id: 'dansen-keuken',
+    titel: 'Zet drie nummers op en dans in de keuken',
+    pitch: 'Nee, er kijkt niemand. Ja, het werkt.',
+    interesses: ['sport', 'muziek', 'welzijn'], tijd: 15, kosten: 'gratis', kostenIndicatie: '€0',
+    plek: 'binnen', sociaal: 'beide', energie: 3, niveau: 'starter',
+    benodigdheden: [],
+    eersteStap: 'Kies het nummer waar je altijd blij van wordt.',
+    zoek: ''
+  },
+  {
+    id: 'buitensport-gratis',
+    titel: 'Zoek een gratis buitenfitness of trimbaan',
+    pitch: 'In bijna elke gemeente staat er een, en bijna niemand weet het.',
+    interesses: ['sport', 'natuur'], tijd: 60, kosten: 'gratis', kostenIndicatie: '€0',
+    plek: 'buiten', sociaal: 'beide', energie: 3, niveau: 'starter', weerAfhankelijk: true,
+    benodigdheden: ['Sportkleding'],
+    eersteStap: 'Zoek op waar het dichtstbijzijnde trimparcours ligt.',
+    zoek: 'buitenfitness trimbaan in de buurt'
+  },
+  {
+    id: 'wandelclub',
+    titel: 'Sluit je aan bij een wandel- of hardloopgroep',
+    pitch: 'Afspraak met anderen is de enige echte reden om toch te gaan.',
+    interesses: ['sport', 'sociaal', 'natuur'], tijd: 90, kosten: 'gratis', kostenIndicatie: '€0–5',
+    plek: 'buiten', sociaal: 'samen', energie: 3, niveau: 'starter', weerAfhankelijk: true,
+    bronnen: ['wandelnet'],
+    benodigdheden: ['Schoenen'],
+    eersteStap: 'Zoek een groep die deze week loopt en stuur één berichtje.',
+    zoek: 'wandelgroep hardloopgroep beginners in de buurt'
+  },
+
+  /* --- huis, rust, dieren, cultuur --- */
+  {
+    id: 'ramen-lappen',
+    titel: 'Lap de ramen van één kamer',
+    pitch: 'Saai klusje, verbluffend effect. Het licht komt terug.',
+    interesses: ['huis'], tijd: 45, kosten: 'gratis', kostenIndicatie: '€0',
+    plek: 'binnen', sociaal: 'alleen', energie: 2, niveau: 'starter',
+    benodigdheden: ['Emmer', 'Trekker', 'Doek'],
+    eersteStap: 'Begin bij het raam waar je het vaakst doorheen kijkt.',
+    zoek: 'ramen lappen zonder strepen'
+  },
+  {
+    id: 'kast-doneren',
+    titel: 'Zoek tien dingen die weg mogen en breng ze weg',
+    pitch: 'Niet op een stapel "voor later". Vandaag in de auto, vandaag weg.',
+    interesses: ['huis', 'sociaal'], tijd: 60, kosten: 'gratis', kostenIndicatie: '€0',
+    plek: 'beide', sociaal: 'alleen', energie: 2, niveau: 'starter',
+    bronnen: ['kringloop'],
+    benodigdheden: ['Tas of doos'],
+    eersteStap: 'Loop met een tas door één kamer en stop er tien dingen in.',
+    zoek: 'spullen doneren kringloop weggeefkast'
+  },
+  {
+    id: 'brievenbus-nee',
+    titel: 'Regel de kleine dingen die je al maanden uitstelt',
+    pitch: 'Nee-sticker, verzekering, dat ene telefoontje. Zet een timer op 45 minuten.',
+    interesses: ['huis', 'welzijn'], tijd: 45, kosten: 'gratis', kostenIndicatie: '€0',
+    plek: 'binnen', sociaal: 'alleen', energie: 2, niveau: 'starter',
+    benodigdheden: ['Papier en pen'],
+    eersteStap: 'Schrijf vijf dingen op die je al maanden vooruitschuift en begin bij de kortste.',
+    zoek: ''
+  },
+  {
+    id: 'ademhaling',
+    titel: 'Doe vijf minuten rustige ademhaling',
+    pitch: 'Vier tellen in, zes tellen uit. Meer is het niet, en het werkt meteen.',
+    interesses: ['welzijn'], tijd: 15, kosten: 'gratis', kostenIndicatie: '€0',
+    plek: 'beide', sociaal: 'alleen', energie: 1, niveau: 'starter',
+    benodigdheden: [],
+    eersteStap: 'Ga zitten, adem in op vier tellen en uit op zes. Tien keer.',
+    zoek: 'ademhalingsoefening rust vier zes'
+  },
+  {
+    id: 'dierenasiel-bezoek',
+    titel: 'Breng iets langs bij het dierenasiel',
+    pitch: 'Oude handdoeken, dekens, voer. Ze kunnen alles gebruiken.',
+    interesses: ['dieren', 'sociaal'], tijd: 60, kosten: 'gratis', kostenIndicatie: '€0–10',
+    plek: 'beide', sociaal: 'beide', energie: 2, niveau: 'starter',
+    benodigdheden: ['Oude handdoeken'],
+    eersteStap: 'Bel het asiel en vraag wat ze op dit moment nodig hebben.',
+    zoek: 'dierenasiel spullen doneren wat nodig'
+  },
+  {
+    id: 'winterse-vogels',
+    titel: 'Hang een vetbol of voederhuisje op',
+    pitch: 'Binnen een week zit er iets, en dan kijk je elke ochtend uit het raam.',
+    interesses: ['dieren', 'natuur', 'tuin'], tijd: 20, kosten: 'klein', kostenIndicatie: '€5',
+    plek: 'buiten', sociaal: 'beide', energie: 1, niveau: 'starter',
+    bronnen: ['vogelgeluiden'],
+    benodigdheden: ['Vetbollen', 'Touw'],
+    eersteStap: 'Zoek een tak of haak die je vanaf je keukenraam kunt zien.',
+    zoek: 'vogels voeren winter wat mag wel'
+  },
+  {
+    id: 'open-monumenten',
+    titel: 'Ga naar een gebouw dat normaal dicht is',
+    pitch: 'Open monumentendag, een rondleiding, een kerk of watertoren.',
+    interesses: ['cultuur', 'fotografie'], tijd: 120, kosten: 'gratis', kostenIndicatie: '€0–10',
+    plek: 'beide', sociaal: 'beide', energie: 2, niveau: 'starter',
+    bronnen: ['musea'],
+    benodigdheden: [],
+    eersteStap: 'Zoek welke gebouwen bij jou in de buurt rondleidingen geven.',
+    zoek: 'open monumentendag rondleiding in de buurt'
+  },
+  {
+    id: 'lokale-geschiedenis',
+    titel: 'Zoek uit wat er vroeger op jouw straat stond',
+    pitch: 'Oude kaarten en foto\'s van je eigen adres. Je loopt er daarna anders.',
+    interesses: ['cultuur', 'lezen'], tijd: 60, kosten: 'gratis', kostenIndicatie: '€0',
+    plek: 'binnen', sociaal: 'alleen', energie: 1, niveau: 'starter',
+    bronnen: ['bibliotheek'],
+    benodigdheden: [],
+    eersteStap: 'Zoek het archief van je gemeente en typ je straatnaam in.',
+    zoek: 'oude foto\'s straat gemeentearchief'
+  },
+  {
+    id: 'taal-buurman',
+    titel: 'Leer tien woorden in de taal van je buren',
+    pitch: 'Turks, Pools, Arabisch, Fries. Eén zin kan een straat veranderen.',
+    interesses: ['cultuur', 'sociaal'], tijd: 30, kosten: 'gratis', kostenIndicatie: '€0',
+    plek: 'beide', sociaal: 'beide', energie: 1, niveau: 'starter',
+    benodigdheden: ['Papier'],
+    eersteStap: 'Begin met "goedemorgen", "dank je wel" en "hoe gaat het?".',
+    zoek: 'basiswoorden leren taal begroeting'
+  },
+  {
+    id: 'spelletje-alleen',
+    titel: 'Doe een kruiswoordpuzzel of sudoku op papier',
+    pitch: 'Papier, pen, geen scherm dat je onderbreekt.',
+    interesses: ['spellen', 'welzijn'], tijd: 30, kosten: 'klein', kostenIndicatie: '€3 puzzelboekje',
+    plek: 'beide', sociaal: 'alleen', energie: 1, niveau: 'starter',
+    benodigdheden: ['Puzzelboekje', 'Potlood'],
+    eersteStap: 'Haal een puzzelboekje bij de supermarkt en leg het op tafel.',
+    zoek: 'puzzelboekje sudoku kruiswoord'
+  },
+  {
+    id: 'kaartspel-leren',
+    titel: 'Leer een ouderwets kaartspel',
+    pitch: 'Klaverjassen, hartenjagen, patience. Eén pak kaarten, honderd avonden.',
+    interesses: ['spellen', 'sociaal'], tijd: 60, kosten: 'klein', kostenIndicatie: '€3 kaarten',
+    plek: 'binnen', sociaal: 'beide', energie: 1, niveau: 'starter',
+    bronnen: ['wikihow'],
+    benodigdheden: ['Pak kaarten'],
+    eersteStap: 'Zoek de regels van één spel op en speel de eerste ronde open.',
+    zoek: 'kaartspel regels klaverjassen hartenjagen'
   }
 ];

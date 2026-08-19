@@ -128,11 +128,12 @@ function koopUrl(periode) {
  * Met een partner-id gaat dat naar de winkel, zonder id naar een gewone zoekpagina.
  */
 function materiaalLink(term) {
-  const zoek = encodeURIComponent(term);
+  // codeer() komt uit js/links.js en dekt ook !'()*
+  const zoek = codeer(term);
   if (CONFIG.bolPartnerId) {
-    return `https://www.bol.com/nl/nl/s/?searchtext=${zoek}&Referrer=ADVID=${encodeURIComponent(CONFIG.bolPartnerId)}`;
+    return `https://www.bol.com/nl/nl/s/?searchtext=${zoek}&Referrer=ADVID=${codeer(CONFIG.bolPartnerId)}`;
   }
-  return `https://duckduckgo.com/?q=${zoek}+kopen`;
+  return `https://duckduckgo.com/?q=${codeer(`${term} kopen`)}`;
 }
 
 function affiliateActief() { return Boolean(CONFIG.bolPartnerId); }

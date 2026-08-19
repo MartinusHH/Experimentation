@@ -76,6 +76,16 @@ async function haalState(uid) {
   return null;
 }
 
+/**
+ * Alles van dit account weggooien: het document, de subcollecties en het
+ * inlogaccount zelf. Verplicht zodra er gegevens op een server staan — de
+ * knop in de app roept dit aan zodra er een account is.
+ */
+async function verwijderAccount(uid) {
+  if (!cloudActief() || !uid) return null;
+  throw new Error('Verwijderen in de cloud is nog niet aangesloten. Zie docs/account.md.');
+}
+
 /* ──────────────────────────────────────── buurtprikbord ── */
 
 /** Open uitnodigingen plaatsen en zoeken. Ontwerp: docs/samen.md. */

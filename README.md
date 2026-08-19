@@ -13,7 +13,7 @@ Geen build-stap, geen dependencies, geen account: gewone HTML, CSS en JavaScript
 | --- | --- |
 | **Vandaag** | Het weer in één regel, één idee dat nu past, en of je vandaag al iets hebt geschreven. Drie knoppen voor hoeveel tijd je hebt. |
 | **Ontdek** | Alle suggesties. De filters zitten in een blad achter *Verfijn*, zodat het scherm kort blijft. 🎲 geeft één willekeurig idee. |
-| **Dagboek** | Eén bladzijde per dag: drie dingen waar je dankbaar voor bent, je stemming, een notitie — en automatisch wat je die dag hebt gedaan. |
+| **Dagboek** | Eén bladzijde per dag, met de volle datum en een bladzijdenummer: drie dingen waar je dankbaar voor bent, je stemming, een notitie — en automatisch wat je die dag deed, met het tijdstip erbij. |
 | **Samen** | Je plannen met anderen, uitnodigingen versturen, en zeven ingangen naar wat er in jouw plaats te doen is: uitagenda, workshops, wandelroutes, Repair Café, buurthuis, markten, sportclubs. |
 | **Ik** | Je profiel (naam, foto, bio), je interesses, je plaats, je cijfers en Offline+. |
 
@@ -64,12 +64,18 @@ dan ook geen inlogknop in beeld. Het stappenplan om het aan te zetten staat in
 
 ## Wat er online gebeurt
 
-Alles staat op je eigen toestel. Naar buiten gaan alleen:
+Alles staat op je eigen toestel. In de app zelf staat een samenvatting achter
+*Privacy en je gegevens*; de volledige verklaring staat in
+**[docs/privacy.md](docs/privacy.md)**. Naar buiten gaan alleen:
 
 - **het weerbericht** — [Open-Meteo](https://open-meteo.com), geen sleutel of account;
 - **de plaatsnaam bij je locatie** — alleen als je op 📍 tikt;
 - **de zoeklinks** — pas als je er zelf op klikt;
 - **het activeren van Offline+** — alleen als je een licentiesleutel invoert.
+
+Met *Alles verwijderen* op het **Ik**-scherm is alles in één keer weg: je
+dagboek, je plannen, je profiel, je foto en de anonieme apparaatsleutel. De app
+laat eerst zien wát er weggaat en biedt aan er nog een back-up van te maken.
 
 Het weerbericht wordt een half uur bewaard, en als je offline bent gebruikt de
 app het laatste bericht dat hij had. Dankzij de service worker (`sw.js`) werkt
@@ -116,7 +122,8 @@ index.html        de vijf schermen, de bladen en de wizard
 styles.css        pasteltinten, één maat knoppen, licht én donker
 manifest.json     zodat de app op je beginscherm past
 sw.js             cache van de app zelf, zodat het offline werkt
-js/data.js        91 activiteiten, 18 interesses, 10 Offline+-pakketten
+js/data.js        129 activiteiten, 18 interesses, 10 Offline+-pakketten
+js/links.js       alle zoekopdrachten en vaste bronnen op één plek
 js/engine.js      de suggestie-motor: filtert hard, scoort zacht
 js/weer.js        Open-Meteo, het "buiten-gevoel" en het beste moment
 js/buurt.js       de bronnen voor activiteiten in de buurt
@@ -128,6 +135,15 @@ js/samen.js       uitnodigingen als link, plannen en je profielfoto
 js/dagboek.js     bladzijden, reeks, archief en export
 js/app.js         schermen, bladen, timer en opslag
 ```
+
+### Links en zoekopdrachten
+
+Alle uitgaande links komen uit `js/links.js`. Uitgangspunt: een zoekopdracht kan
+niet verouderen, een deeplink wel — dus standaard sturen we naar een
+zoekresultaat. Waar een vaste bron echt beter is (Repair Café, Wandelnet, de
+bibliotheek) staat die in `BRONNEN`, altijd met een zoekterm als terugval voor
+als die site verhuist. Een activiteit koppelt zich eraan met
+`bronnen: ['repaircafe']`.
 
 ### Zelf een activiteit toevoegen
 

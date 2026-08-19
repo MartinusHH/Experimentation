@@ -126,7 +126,7 @@
     <button class="rondknop" id="dagVorige" aria-label="Vorige dag">‹</button>
     <div class="bladwijzer__midden">
       <p class="bladwijzer__datum" id="dagDatum">vandaag</p>
-      <p class="bladwijzer__nr" id="dagNummer"></p>
+      <p class="bladwijzer__nr"><span id="dagVolleDatum"></span> · <span id="dagNummer"></span></p>
     </div>
     <button class="rondknop" id="dagVolgende" aria-label="Volgende dag">›</button>
   </div>
@@ -145,6 +145,7 @@
     <div class="stemmingen" id="stemmingen"></div>
     <textarea class="invoer invoer--vlak" id="dagNotitie" rows="4" placeholder="Wat je verder kwijt wil…"></textarea>
     <p class="opslagmelding" id="dagOpslag"></p>
+    <p class="uitleg" id="dagGeschreven"></p>
   </div>
 
   <div class="kaart kaart--zacht">
@@ -244,12 +245,17 @@
     <p class="uitleg" id="opslagMelding" hidden></p>
   </div>
 
+  <button class="rijknop" id="knopPrivacy">
+    <span>Privacy en je gegevens</span>
+    <span class="rijknop__waarde">lezen ›</span>
+  </button>
+
   <div class="kaart">
     <h2 class="kaart__titel">App</h2>
     <div class="knoprij">
       <button class="knop knop--vol" id="knopInstalleer" hidden>Zet op beginscherm</button>
       <button class="knop knop--vol" id="knopExport">Dagboek exporteren</button>
-      <button class="knop knop--vol knop--stil" id="knopWissen">Alles wissen</button>
+      <button class="knop knop--vol knop--stil" id="knopWissen">Alles verwijderen</button>
     </div>
     <p class="uitleg">Alleen het weerbericht, de zoeklinks en het activeren van Offline+
       gaan naar internet.</p>
@@ -299,6 +305,7 @@
 <script src="js/data.js"></script>
 <script src="js/engine.js"></script>
 <script src="js/weer.js"></script>
+<script src="js/links.js"></script>
 <script src="js/buurt.js"></script>
 <script src="js/betaling.js"></script>
 <script src="js/advertenties.js"></script>

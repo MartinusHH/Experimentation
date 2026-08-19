@@ -108,6 +108,7 @@ function apparaatSleutel() {
 function wisAlles() {
   try {
     localStorage.removeItem(OPSLAG_SLEUTEL);
+    localStorage.removeItem(APPARAAT_SLEUTEL);   // ook de anonieme sleutel gaat weg
     OUDE_SLEUTELS.forEach((s) => localStorage.removeItem(s));
   } catch { /* niets */ }
 }

@@ -232,6 +232,7 @@ p  { margin: 0; }
 .logregel { display: flex; justify-content: space-between; gap: .8rem; padding: .45rem 0; border-bottom: 1px solid rgba(0,0,0,.06); font-size: .9rem; }
 .logregel:last-child { border-bottom: none; }
 .logregel span { color: var(--inkt-zacht); font-size: .8rem; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.logregel__tijd { color: var(--inkt-zacht); font-variant-numeric: tabular-nums; font-weight: 600; margin-right: .2rem; }
 
 /* ───────────────────────────────────────────── buurt ── */
 .rooster { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; }

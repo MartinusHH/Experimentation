@@ -71,7 +71,11 @@ function datumLabel(sleutel) {
   if (sleutel === vandaag) return 'Vandaag';
   if (sleutel === verschuifDag(vandaag, -1)) return 'Gisteren';
   const [j, m, d] = sleutel.split('-').map(Number);
-  return new Date(j, m - 1, d).toLocaleDateString('nl-NL', { weekday: 'long', day: 'numeric', month: 'long' });
+  const datum = new Date(j, m - 1, d);
+  // Een dag uit een ander jaar krijgt het jaartal erbij, anders wordt het raden.
+  const opties = { weekday: 'long', day: 'numeric', month: 'long' };
+  if (j !== new Date().getFullYear()) opties.year = 'numeric';
+  return datum.toLocaleDateString('nl-NL', opties);
 }
 
 /** Het hele dagboek als leesbare tekst (Offline+). */
@@ -90,7 +94,10 @@ function exporteerDagboek(state) {
     if (p.notitie.trim()) { regels.push('Notitie:'); regels.push(`  ${p.notitie.replace(/\n/g, '\n  ')}`); }
     if (gedaan.length) {
       regels.push('Gedaan:');
-      gedaan.forEach((g) => regels.push(`  • ${g.titel} (${g.minuten} min)`));
+      gedaan.forEach((g) => regels.push(`  • ${g.tijd ? `${g.tijd}  ` : ''}${g.titel} (${g.minuten} min)`));
+    }
+    if (p.bijgewerkt) {
+      regels.push(`Geschreven op: ${new Date(p.bijgewerkt).toLocaleString('nl-NL')}`);
     }
     regels.push('');
   });

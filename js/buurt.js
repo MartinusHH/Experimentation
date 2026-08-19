@@ -81,10 +81,6 @@ function slug(plaats) {
   return plaats.toLowerCase().trim().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
 }
 
-function zoekUrl(q) {
-  return `https://duckduckgo.com/?q=${encodeURIComponent(q)}`;
-}
-
 /** Geeft de buurt-kaarten terug, met de best passende bronnen bovenaan. */
 function buurtTips(plaats, interesses = []) {
   const p = (plaats || '').trim() || 'jouw plaats';
@@ -96,7 +92,7 @@ function buurtTips(plaats, interesses = []) {
         relevant,
         links: bron.zoek(p).map((l) => ({
           label: l.label,
-          url: l.url ? l.url(p) : zoekUrl(l.q)
+          url: l.url ? l.url(p) : zoekUrl(l.q)      // zoekUrl komt uit js/links.js
         }))
       };
     })

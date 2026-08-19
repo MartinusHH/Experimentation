@@ -114,11 +114,4 @@ function formatteerTijd(minuten) {
   return Number.isInteger(uren) ? `${uren} uur` : `${Math.floor(uren)},5 uur`;
 }
 
-/** Zoeklink voor "hoe doe ik dit" of "waar kan dit bij mij in de buurt". */
-function zoekLink(activiteit, plaats) {
-  const term = activiteit.zoek || activiteit.titel;
-  const query = plaats && /in de buurt|workshop|café|club|museum|route/i.test(term)
-    ? term.replace(/in de buurt/i, plaats) + (term.includes(plaats) ? '' : ` ${plaats}`)
-    : term;
-  return `https://duckduckgo.com/?q=${encodeURIComponent(query)}`;
-}
+/* De links bij een activiteit worden gebouwd in js/links.js. */

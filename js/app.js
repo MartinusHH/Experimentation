@@ -67,6 +67,20 @@ function veilig(tekst) {
 
 function meervoud(aantal, enkel, meer) { return `${aantal} ${aantal === 1 ? enkel : meer}`; }
 
+/** "dinsdag 19 augustus 2026" — voluit, zodat een bladzijde zichzelf verklaart. */
+function volleDatum(sleutel) {
+  const [j, m, d] = sleutel.split('-').map(Number);
+  return new Date(j, m - 1, d).toLocaleDateString('nl-NL',
+    { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+}
+
+/** "19 aug 2026 om 18:42" */
+function nettDatumTijd(tijdstip) {
+  const d = new Date(tijdstip);
+  return `${d.toLocaleDateString('nl-NL', { day: 'numeric', month: 'short', year: 'numeric' })} om ` +
+    d.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' });
+}
+
 function toost(tekst) {
   const el = $('#toost');
   el.textContent = tekst;
@@ -337,8 +351,8 @@ function openIdee(id) {
     <div class="blad__veld">
       <span>Nodig${affiliateActief() ? ' — tik om te bestellen' : ''}</span>
       <div class="chips chips--wikkel">
-        ${a.benodigdheden.map((b) =>
-          `<a class="chip" href="${materiaalLink(b)}" target="_blank" rel="noopener nofollow sponsored">${veilig(b)} ↗</a>`).join('')}
+        ${materiaalLinks(a).map((l) =>
+          `<a class="chip" href="${l.url}" target="_blank" rel="noopener nofollow sponsored">${veilig(l.label)} ↗</a>`).join('')}
       </div>
       ${affiliateActief() ? '<span class="uitleg">Via deze links verdient de app een kleine commissie. Jij betaalt hetzelfde.</span>' : ''}
     </div>` : '';
@@ -358,7 +372,8 @@ function openIdee(id) {
     <div class="knoprij">
       <button class="knop knop--primair knop--vol" data-start="${a.id}">Ik ga dit doen</button>
       ${magSamen(a) ? `<button class="knop knop--vol" data-samen="${a.id}">Samen doen — nodig iemand uit</button>` : ''}
-      ${a.zoek ? `<a class="knop knop--vol" href="${zoekLink(a, state.plaats)}" target="_blank" rel="noopener">Zoek uitleg ↗</a>` : ''}
+      ${activiteitLinks(a, state.plaats).map((l) =>
+        `<a class="knop knop--vol" href="${l.url}" target="_blank" rel="noopener">${veilig(l.label)} ↗</a>`).join('')}
       <button class="knop knop--vol" data-favoriet="${a.id}">${favoriet ? '💖 Bewaard' : '🤍 Bewaar voor later'}</button>
       <button class="knop knop--stil knop--vol" data-anders="${a.id}">Toon me iets anders</button>
     </div>`);
@@ -470,7 +485,13 @@ function stopTimer() {
 $('#timerKlaar').addEventListener('click', () => {
   if (!timerData) return stopTimer();
   const minuten = Math.max(1, Math.round((Date.now() - timerData.start) / 60000));
-  state.gedaan = [{ id: timerData.id, titel: timerData.titel, minuten, datum: dagSleutel() }, ...state.gedaan].slice(0, 500);
+  const nu = new Date();
+  state.gedaan = [{
+    id: timerData.id, titel: timerData.titel, minuten,
+    datum: dagSleutel(nu),
+    tijd: `${String(nu.getHours()).padStart(2, '0')}:${String(nu.getMinutes()).padStart(2, '0')}`,
+    bijgewerkt: Date.now()
+  }, ...state.gedaan].slice(0, 500);
   state.gezien = [...state.gezien, timerData.id].slice(-20);
   bewaar();
   stopTimer();
@@ -486,6 +507,7 @@ $('#timerStop').addEventListener('click', stopTimer);
 function tekenDagboek() {
   const pagina = leesPagina(state, dagHuidig);
   $('#dagDatum').textContent = datumLabel(dagHuidig);
+  $('#dagVolleDatum').textContent = volleDatum(dagHuidig);
   const nr = paginaNummer(state, dagHuidig);
   $('#dagNummer').textContent = nr ? `bladzijde ${nr}` : 'nieuwe bladzijde';
   $('#dagVolgende').disabled = dagHuidig >= dagSleutel();
@@ -501,13 +523,23 @@ function tekenDagboek() {
   const minuten = gedaan.reduce((som, g) => som + g.minuten, 0);
 
   const regels = gedaan.map((g) =>
-    `<div class="logregel"><div>${veilig(g.titel)}</div><span>${g.minuten} min</span></div>`).join('')
+    `<div class="logregel">
+       <div>${g.tijd ? `<b class="logregel__tijd">${veilig(g.tijd)}</b> ` : ''}${veilig(g.titel)}</div>
+       <span>${g.minuten} min</span>
+     </div>`).join('')
     + gepland.map((p) =>
-      `<div class="logregel"><div>${veilig(p.titel)}</div><span>${veilig(p.tijd || 'gepland')}${p.naam ? ` · met ${veilig(p.naam)}` : ''}</span></div>`).join('');
+      `<div class="logregel">
+         <div>${p.tijd ? `<b class="logregel__tijd">${veilig(p.tijd)}</b> ` : ''}${veilig(p.titel)}</div>
+         <span>gepland${p.naam ? ` · met ${veilig(p.naam)}` : ''}</span>
+       </div>`).join('');
 
   $('#dagActiviteiten').innerHTML = regels
     ? regels + (minuten ? `<p class="uitleg">Samen ${meervoud(minuten, 'minuut', 'minuten')} zonder telefoon.</p>` : '')
     : '<p class="uitleg">Nog niets gelogd. Wat je afrondt met de timer komt hier vanzelf te staan.</p>';
+
+  $('#dagGeschreven').textContent = pagina.bijgewerkt
+    ? `Geschreven op ${nettDatumTijd(pagina.bijgewerkt)}`
+    : '';
 }
 
 function slaDagOp() {
@@ -520,6 +552,10 @@ function slaDagOp() {
   pagina.stemming = gekozen ? Number(gekozen.dataset.stemming) : null;
   schrijfPagina(state, dagHuidig, pagina);
   bewaar();
+  const bewaard = leesPagina(state, dagHuidig).bijgewerkt;
+  $('#dagGeschreven').textContent = bewaard ? `Geschreven op ${nettDatumTijd(bewaard)}` : '';
+  $('#dagNummer').textContent = paginaNummer(state, dagHuidig)
+    ? `bladzijde ${paginaNummer(state, dagHuidig)}` : 'nieuwe bladzijde';
   $('#dagOpslag').textContent = 'Opgeslagen ✓';
   clearTimeout(dagOpslagTimer);
   dagOpslagTimer = setTimeout(() => { $('#dagOpslag').textContent = ''; }, 1800);
@@ -562,7 +598,9 @@ $('#knopArchief').addEventListener('click', () => {
     if (p.notitie.trim()) stukjes.push('notitie');
     if (gedaan.length) stukjes.push(meervoud(gedaan.length, 'activiteit', 'activiteiten'));
     return `<button class="logregel" style="width:100%;background:none;border:none;font:inherit;color:inherit;cursor:pointer"
-        data-dag="${sleutel}"><div>${stem} ${veilig(datumLabel(sleutel))}</div><span>${stukjes.join(' · ') || 'leeg'}</span></button>`;
+        data-dag="${sleutel}">
+        <div>${stem} ${veilig(datumLabel(sleutel))}<br><span class="uitleg">${veilig(sleutel)}</span></div>
+        <span>${stukjes.join(' · ') || 'leeg'}</span></button>`;
   }).join('') : '<p class="leeg">Je archief vult zich vanzelf.</p>';
 
   const slot = !plus && dagen.length > 7
@@ -1036,12 +1074,87 @@ $('#knopPlaatsOpslaan').addEventListener('click', () => {
 });
 
 $('#knopWissen').addEventListener('click', () => {
-  if (!confirm('Alles wissen? Je interesses, dagboek, favorieten en logboek verdwijnen.')) return;
-  wisAlles();
-  state = laad();
-  weer = null;
-  dagHuidig = dagSleutel();
-  toonWizard();
+  const bladzijden = Object.keys(state.dagboek).length;
+  const heeftIets = bladzijden || state.gedaan.length || state.plannen.length || state.profiel.naam;
+
+  openBlad('Alles verwijderen', `
+    <p>Dit wist alles wat de app van je weet, op dit toestel:</p>
+    <div class="kaart">
+      <div class="logregel"><div>Dagboekbladzijden</div><span>${bladzijden}</span></div>
+      <div class="logregel"><div>Afgeronde activiteiten</div><span>${state.gedaan.length}</span></div>
+      <div class="logregel"><div>Plannen</div><span>${state.plannen.length}</span></div>
+      <div class="logregel"><div>Bewaarde ideeën</div><span>${state.favorieten.length}</span></div>
+      <div class="logregel"><div>Profiel${state.profiel.foto ? ' en foto' : ''}</div>
+        <span>${state.profiel.naam ? veilig(state.profiel.naam) : '—'}</span></div>
+    </div>
+    <p class="uitleg">Er staat niets van jou op een server, dus hierna is het echt weg —
+      wij kunnen het niet terughalen.</p>
+    <div class="knoprij">
+      ${heeftIets ? '<button class="knop knop--primair knop--vol" id="wisEerstBackup">Maak eerst een back-up</button>' : ''}
+      <button class="knop knop--vol" id="wisDoor">Verwijder alles</button>
+      <button class="knop knop--stil knop--vol" data-sluit>Annuleer</button>
+    </div>`);
+
+  const backupKnop = $('#wisEerstBackup');
+  if (backupKnop) backupKnop.addEventListener('click', async () => {
+    const gelukt = await bewaarBestand(backupBestandsnaam(), maakBackup(state), 'application/json');
+    if (gelukt) toost('Back-up gemaakt — je kunt nu veilig verwijderen');
+  });
+
+  $('#wisDoor').addEventListener('click', async () => {
+    // Is er ooit een account gekoppeld, dan hoort het daar ook weg te gaan.
+    const gebruiker = cloudActief() ? huidigeGebruiker() : null;
+    if (gebruiker) {
+      try {
+        await verwijderAccount(gebruiker.uid);
+      } catch (fout) {
+        toost(fout.message);
+        return;
+      }
+    }
+    wisAlles();
+    state = laad();
+    weer = null;
+    dagHuidig = dagSleutel();
+    sluitBlad();
+    toonWizard();
+    toost('Alles verwijderd');
+  });
+});
+
+$('#knopPrivacy').addEventListener('click', () => {
+  openBlad('Privacy en je gegevens', `
+    <div class="kaart kaart--zacht">
+      <b>Je gegevens staan op dit toestel.</b>
+      <span class="uitleg">Geen account, geen server van ons, geen analytics en geen trackers.</span>
+    </div>
+    <div class="blad__veld"><span>Wat er wordt opgeslagen</span>
+      <p class="uitleg">Je profiel, interesses en plaats, je dagboek, wat je afrondde, je plannen
+        en of Offline+ actief is. Alles in de opslag van je browser. Wij kunnen daar niet bij.</p>
+    </div>
+    <div class="blad__veld"><span>Wat er naar buiten gaat — en alleen als jij iets doet</span>
+      <p class="uitleg">
+        • het weerbericht (je plaats of coördinaten naar Open-Meteo)<br>
+        • de plaatsnaam bij je locatie, als je op 📍 tikt<br>
+        • zoek- en winkellinks, pas als je erop tikt<br>
+        • je licentiesleutel, als je Offline+ activeert<br>
+        • advertenties: nu niets; komt er een netwerk, dan vragen we eerst toestemming
+      </p>
+    </div>
+    <div class="blad__veld"><span>Uitnodigingen</span>
+      <p class="uitleg">Een uitnodiging is een link die jij zelf verstuurt. Daarin staat alleen wat je
+        invulde. Iedereen die de link krijgt kan hem lezen en doorsturen, dus zet er niets in
+        wat niet bij een ander mag komen.</p>
+    </div>
+    <div class="blad__veld"><span>Verwijderen</span>
+      <p class="uitleg">Met "Alles verwijderen" hierboven is het in één keer weg, inclusief je foto
+        en de apparaatsleutel. Wij hoeven daarna niets te wissen — wij hadden het niet.</p>
+    </div>
+    <button class="knop knop--vol" id="privacyVolledig">Lees de hele verklaring ↗</button>`);
+
+  $('#privacyVolledig').addEventListener('click', () => {
+    window.open('https://github.com/MartinusHH/Experimentation/blob/main/docs/privacy.md', '_blank', 'noopener');
+  });
 });
 
 $('#knopExport').addEventListener('click', async () => {
