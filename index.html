@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Offline! — bedenk iets leukers dan je telefoon</title>
+<meta name="description" content="Krijg persoonlijke suggesties voor wat je kunt doen in plaats van scrollen: knutselen, leren, naar buiten of iets in de buurt.">
+<meta name="theme-color" content="#f6f1ea">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="kop">
+  <div class="kop__titel">
+    <span class="logo" aria-hidden="true">🌿</span>
+    <div>
+      <h1>Offline!</h1>
+      <p class="kop__sub">Iets leukers dan scrollen — op maat van wat jij mooi vindt.</p>
+    </div>
+  </div>
+  <div class="kop__stats" id="kopStats"></div>
+</header>
+
+<nav class="tabs" id="tabs" aria-label="Hoofdmenu">
+  <button class="tab is-actief" data-tab="ontdek">✨ Ontdek</button>
+  <button class="tab" data-tab="profiel">💛 Jouw smaak</button>
+  <button class="tab" data-tab="weer">🌤️ Weer &amp; buiten</button>
+  <button class="tab" data-tab="buurt">📍 In de buurt</button>
+  <button class="tab" data-tab="logboek">📔 Logboek</button>
+</nav>
+
+<main>
+
+  <!-- ══════════════════════════════════════════════ ONTDEK ══ -->
+  <section class="paneel is-actief" id="paneel-ontdek">
+
+    <div class="welkom kaart kaart--zacht" id="welkom" hidden>
+      <h2>Waar word jij blij van?</h2>
+      <p>Vertel eerst even wat je leuk vindt — dan zijn de suggesties meteen van jou.
+         Houd je van kleding? Dan krijg je naaien. Van kleur? Dan krijg je verf.</p>
+      <button class="knop knop--primair" data-ga-naar="profiel">Kies je interesses →</button>
+    </div>
+
+    <div class="filters kaart">
+      <h2 class="filters__titel">Wat past er nu bij je?</h2>
+
+      <div class="filter">
+        <span class="filter__label">Hoeveel tijd heb je?</span>
+        <div class="chips" data-filter="tijd" role="group">
+          <button class="chip" data-waarde="15">15 min</button>
+          <button class="chip" data-waarde="30">Half uur</button>
+          <button class="chip is-aan" data-waarde="60">Een uur</button>
+          <button class="chip" data-waarde="120">Een paar uur</button>
+          <button class="chip" data-waarde="240">Hele middag</button>
+        </div>
+      </div>
+
+      <div class="filter">
+        <span class="filter__label">Mag het geld kosten?</span>
+        <div class="chips" data-filter="budget" role="group">
+          <button class="chip is-aan" data-waarde="gratis">Liever gratis</button>
+          <button class="chip" data-waarde="klein">Een paar euro</button>
+          <button class="chip" data-waarde="investering">Mag wat kosten</button>
+        </div>
+      </div>
+
+      <div class="filter">
+        <span class="filter__label">Binnen of buiten?</span>
+        <div class="chips" data-filter="plek" role="group">
+          <button class="chip is-aan" data-waarde="egaal">Maakt niet uit</button>
+          <button class="chip" data-waarde="binnen">Binnen</button>
+          <button class="chip" data-waarde="buiten">Buiten</button>
+        </div>
+      </div>
+
+      <div class="filter">
+        <span class="filter__label">Alleen of met anderen?</span>
+        <div class="chips" data-filter="sociaal" role="group">
+          <button class="chip is-aan" data-waarde="egaal">Maakt niet uit</button>
+          <button class="chip" data-waarde="alleen">Lekker alleen</button>
+          <button class="chip" data-waarde="samen">Met anderen</button>
+        </div>
+      </div>
+
+      <div class="filter">
+        <span class="filter__label">Hoeveel energie heb je?</span>
+        <div class="chips" data-filter="energie" role="group">
+          <button class="chip" data-waarde="1">Weinig 🫖</button>
+          <button class="chip is-aan" data-waarde="2">Gemiddeld 🙂</button>
+          <button class="chip" data-waarde="3">Veel ⚡</button>
+        </div>
+      </div>
+
+      <div class="filters__acties">
+        <button class="knop knop--primair" id="knopSuggesties">Geef me ideeën</button>
+        <button class="knop" id="knopVerras">🎲 Verras me</button>
+      </div>
+      <p class="weerhint" id="weerhint"></p>
+    </div>
+
+    <div id="suggestieLijst" class="lijst"></div>
+    <button class="knop knop--breed" id="knopMeer" hidden>Meer ideeën ↓</button>
+  </section>
+
+  <!-- ═════════════════════════════════════════════ PROFIEL ══ -->
+  <section class="paneel" id="paneel-profiel">
+    <div class="kaart">
+      <h2>Wat vind je leuk?</h2>
+      <p class="uitleg">Kies er gerust een stuk of vijf. Hoe meer je aanvinkt, hoe persoonlijker
+         de suggesties. Je kunt dit altijd aanpassen.</p>
+      <div class="chips chips--groot" id="interesseKeuze"></div>
+    </div>
+
+    <div class="kaart">
+      <h2>Waar woon je?</h2>
+      <p class="uitleg">Alleen voor het weerbericht en tips in de buurt. Blijft op je eigen apparaat.</p>
+      <div class="rij">
+        <input type="text" id="plaatsInput" class="invoer" placeholder="Bijv. Utrecht" autocomplete="address-level2">
+        <button class="knop knop--primair" id="knopPlaatsOpslaan">Opslaan</button>
+      </div>
+      <p class="uitleg" id="plaatsStatus"></p>
+    </div>
+
+    <div class="kaart">
+      <h2>Je gegevens</h2>
+      <p class="uitleg">Alles staat in je browser, er gaat niets naar een server.
+         Alleen het weerbericht en de zoeklinks halen iets van internet.</p>
+      <button class="knop knop--stil" id="knopWissen">Alles wissen</button>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════ WEER ══ -->
+  <section class="paneel" id="paneel-weer">
+    <div class="kaart">
+      <h2>Eerst even het weer checken</h2>
+      <p class="uitleg">Dan weet je of die wandeling nu een goed idee is, of straks.</p>
+      <div class="rij">
+        <button class="knop knop--primair" id="knopWeer">Haal weerbericht op</button>
+        <button class="knop" id="knopLocatie">📍 Gebruik mijn locatie</button>
+      </div>
+      <div id="weerUitslag" class="weer"></div>
+    </div>
+    <div id="buitenSuggesties" class="lijst"></div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════ BUURT ══ -->
+  <section class="paneel" id="paneel-buurt">
+    <div class="kaart">
+      <h2>Wat is er te doen bij jou in de buurt?</h2>
+      <p class="uitleg">Deze ingangen zoeken in de agenda's die bij jou in de gemeente
+         echt worden bijgehouden — vul je plaats in bij <em>Jouw smaak</em>.</p>
+      <div class="rij">
+        <input type="text" id="buurtPlaats" class="invoer" placeholder="Plaatsnaam">
+        <button class="knop knop--primair" id="knopBuurt">Zoek activiteiten</button>
+      </div>
+    </div>
+    <div id="buurtLijst" class="lijst"></div>
+  </section>
+
+  <!-- ═════════════════════════════════════════════ LOGBOEK ══ -->
+  <section class="paneel" id="paneel-logboek">
+    <div class="kaart kaart--zacht" id="logboekSamenvatting"></div>
+    <div class="kaart">
+      <h2>Bewaard voor later</h2>
+      <div id="favorietenLijst" class="lijst lijst--compact"></div>
+    </div>
+    <div class="kaart">
+      <h2>Gedaan</h2>
+      <div id="gedaanLijst" class="lijst lijst--compact"></div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ═══════════════════════════════════════════════════ TIMER ══ -->
+<div class="timer" id="timer" hidden>
+  <div class="timer__inhoud">
+    <p class="timer__label">Telefoonvrije tijd</p>
+    <p class="timer__activiteit" id="timerActiviteit"></p>
+    <p class="timer__klok" id="timerKlok">00:00</p>
+    <div class="timer__knoppen">
+      <button class="knop knop--primair" id="timerKlaar">Klaar — zet in mijn logboek</button>
+      <button class="knop knop--stil" id="timerStop">Annuleren</button>
+    </div>
+  </div>
+</div>
+
+<footer class="voet">
+  <p>Gemaakt om je telefoon minder leuk te maken dan de rest. Weerbericht via Open-Meteo.</p>
+</footer>
+
+<script src="js/data.js"></script>
+<script src="js/engine.js"></script>
+<script src="js/weer.js"></script>
+<script src="js/buurt.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
