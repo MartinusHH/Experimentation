@@ -4,11 +4,11 @@
  * Drie inkomstenbronnen, oplopend van "werkt vanaf dag één" naar
  * "werkt als de app loopt":
  *
- *   1. Affiliate op materialen. Elk idee heeft benodigdheden; die linken we
- *      naar een winkel met je partner-id erachter. Kost de gebruiker niets
- *      extra en werkt zonder dat iemand een abonnement neemt.
- *   2. Offline+ (abonnement). Extra activiteitenpakketten, je hele
- *      dagboekarchief, export en de weekplanner.
+ *   1. Advertenties in de gratis versie (js/advertenties.js), plus affiliate
+ *      op materialen: elk idee heeft benodigdheden, en die linken we naar een
+ *      winkel met je partner-id erachter.
+ *   2. Offline+ (abonnement). Haalt de advertenties weg en geeft extra
+ *      activiteitenpakketten, je hele dagboekarchief, export en de weekplanner.
  *   3. Lokale partners. Workshops en clubs die in het buurt-scherm
  *      opvallen; betaald per maand of per aanmelding.
  *
@@ -31,12 +31,13 @@ const CONFIG = {
   /* Lokale partners — waar aanmeldingen binnenkomen */
   partnerMail: '',
 
-  prijsMaand: '€2,99',
-  prijsJaar: '€24,-',
+  prijsMaand: '€3,-',
+  prijsJaar: '€30,-',
   proefDagen: 14
 };
 
 const PLUS_VOORDELEN = [
+  ['🚫', 'Geen advertenties', 'De reclameplekken verdwijnen uit Ontdek en Samen.'],
   ['🎁', 'Extra activiteitenpakketten', 'Met kinderen, samen, per seizoen — nieuwe sets elke maand.'],
   ['📚', 'Je hele dagboekarchief', 'Gratis lees je de laatste 7 dagen terug, met Plus alles.'],
   ['📤', 'Dagboek exporteren', 'Alles als tekstbestand, om te bewaren of te printen.'],

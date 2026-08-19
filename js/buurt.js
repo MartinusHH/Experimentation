@@ -8,7 +8,7 @@
 
 const BUURT_BRONNEN = [
   {
-    id: 'agenda', emoji: '📅', titel: 'Wat is er dit weekend te doen?',
+    id: 'agenda', emoji: '📅', titel: 'Dit weekend',
     tekst: 'De uitagenda van je gemeente en de grote evenementensites.',
     zoek: (p) => [
       { label: `Uitagenda ${p}`, q: `uitagenda ${p} deze week` },
@@ -37,7 +37,7 @@ const BUURT_BRONNEN = [
     ]
   },
   {
-    id: 'gratis', emoji: '🫶', titel: 'Gratis en in je eigen straat',
+    id: 'gratis', emoji: '🫶', titel: 'Gratis in je straat',
     tekst: 'Buurthuis, Repair Café, weggeefkast, buurtmoestuin.',
     zoek: (p) => [
       { label: `Buurthuis ${p}`, q: `buurthuis activiteiten ${p}` },
@@ -46,7 +46,7 @@ const BUURT_BRONNEN = [
     ]
   },
   {
-    id: 'cultuur', emoji: '🎭', titel: 'Musea, film en podia',
+    id: 'cultuur', emoji: '🎭', titel: 'Musea en film',
     tekst: 'Kleine zalen en tentoonstellingen zijn vaak goedkoper én leuker.',
     interesses: ['cultuur', 'muziek', 'kunst', 'lezen'],
     zoek: (p) => [
@@ -66,7 +66,7 @@ const BUURT_BRONNEN = [
     ]
   },
   {
-    id: 'markten', emoji: '🧺', titel: 'Markten en rommelmarkten',
+    id: 'markten', emoji: '🧺', titel: 'Markten',
     tekst: 'Een middag rondlopen, kijken en praten met mensen.',
     interesses: ['koken', 'huis', 'cultuur', 'tuin'],
     zoek: (p) => [

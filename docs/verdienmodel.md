@@ -1,8 +1,46 @@
 # Verdienmodel
 
-De app is gratis en werkt zonder account. Er zijn drie inkomstenbronnen, in
+De app is gratis en werkt zonder account. Er zijn vier inkomstenbronnen, in
 volgorde van hoe snel ze geld opleveren. Ze staan allemaal in de code klaar en
-worden aangezet door `CONFIG` in `js/betaling.js` in te vullen.
+worden aangezet door `CONFIG` in `js/betaling.js` en `ADVERTENTIES` in
+`js/advertenties.js` in te vullen.
+
+---
+
+## 0. Advertenties in de gratis versie
+
+Eén advertentie per scherm, alleen op **Ontdek** en **Samen**, altijd met het
+woord *Advertentie* erboven. Drie regels staan in de code en die zou ik niet
+oprekken:
+
+1. **Nooit in het dagboek.** Daar schrijven mensen eerlijke dingen op; reclame
+   ernaast kost je het vertrouwen dat je hele app draagt.
+2. **Hooguit één per scherm.** Een app die je van je telefoon weg wil houden,
+   mag zelf niet gaan schreeuwen.
+3. **Geen netwerkscript zonder toestemming.** Zegt iemand nee, dan zie je
+   alleen advertenties die je zelf plaatst — zonder cookies.
+
+**Aanzetten:** zet `ADVERTENTIES.netwerk` op `'adsense'` of `'ethical'` en vul
+je id in. Let op: voor gepersonaliseerde advertenties in de EU heb je een
+erkende toestemmingsbanner (CMP) nodig; het schermpje in de app is de
+eerlijke minimumversie, geen certificering. EthicalAds werkt zonder cookies en
+zonder CMP, maar accepteert alleen bepaalde soorten sites — voor een app als
+deze is dat het proberen waard, juist omdat het bij het karakter past.
+
+`EIGEN_ADVERTENTIES` is de derde weg: daar zet je lokale partners in. Die
+betalen meestal beter dan een netwerk én passen bij wat de gebruiker zoekt.
+
+**Wat het ongeveer opbrengt** (RPM = opbrengst per 1.000 schermweergaves; in
+Nederland €2–8 voor dit soort inventaris, eigen partners eerder €10–30):
+
+| Actieve gebruikers/maand | Schermen met advertentie | Netwerk (€4 RPM) | Eigen partners (€15 RPM) |
+| --- | --- | --- | --- |
+| 500 | ~7.500 | ~€30 | ~€110 |
+| 5.000 | ~75.000 | ~€300 | ~€1.100 |
+| 50.000 | ~750.000 | ~€3.000 | ~€11.000 |
+
+Advertenties zijn ook de motor onder het abonnement: ze geven mensen een reden
+om die €3 te betalen.
 
 ---
 
@@ -36,9 +74,13 @@ Bescheiden per gebruiker, maar het schaalt mee en kost je niets.
 
 ## 2. Offline+ (het abonnement)
 
-**€2,99 per maand of €24 per jaar.** Wat je krijgt staat in `PLUS_VOORDELEN`:
-extra activiteitenpakketten (met kinderen, samen, per seizoen), je hele
-dagboekarchief in plaats van de laatste 7 dagen, exporteren, en de weekplanner.
+**€3,- per maand of €30 per jaar.** Wat je krijgt staat in `PLUS_VOORDELEN`:
+géén advertenties, extra activiteitenpakketten (met kinderen, samen, per
+seizoen), je hele dagboekarchief in plaats van de laatste 7 dagen, exporteren,
+en de weekplanner.
+
+"Weg met die advertenties" is verreweg het sterkste verkoopargument — sterker
+dan alle extra's bij elkaar. Dat is precies waarom die twee bij elkaar horen.
 
 Belangrijk: **er is niets weggehaald bij de gratis versie.** De pakketten zijn
 erbij gekomen. Een gratis gebruiker ziet steeds één pakket-idee tussen zijn
@@ -62,6 +104,9 @@ app als deze; met een proefperiode van 14 dagen eerder 4% dan 2%):
 | 500 | 15 | ~€45 |
 | 5.000 | 150 | ~€450 |
 | 50.000 | 1.500 | ~€4.500 |
+
+Tel dat op bij de advertenties hierboven: bij 5.000 gebruikers zit je zo rond
+de €750–1.500 per maand, zonder één lokale partner.
 
 **Eerlijk over de bescherming:** de app kent geen account, dus het plan staat in
 de browseropslag. Wie dat wil, kan Offline+ aanzetten zonder te betalen. Bij
@@ -93,15 +138,17 @@ naaicafés, keramiekstudio's en sportverenigingen zoeken.
 ## Wat je in deze volgorde zou doen
 
 1. **Nu:** bol-partner-id invullen. Kost tien minuten en loopt daarna vanzelf.
-2. **Bij ~200 vaste gebruikers:** Lemon Squeezy koppelen en Offline+ aanzetten.
-   Eerder heeft het geen zin; je hebt eerst mensen nodig die de app echt gebruiken.
+2. **Bij ~200 vaste gebruikers:** Lemon Squeezy koppelen en Offline+ aanzetten,
+   met de advertenties erbij — die twee versterken elkaar.
 3. **Bij ~1.000 gebruikers in één regio:** langs de eerste vijf lokale partners.
-   Persoonlijk, met een scherm van de app erbij.
+   Persoonlijk, met een scherm van de app erbij. Zij vullen meteen het
+   buurtprikbord uit [samen.md](samen.md).
 
 ## Wat je niet moet doen
 
-- **Advertenties.** Dit is een app om van je scherm weg te blijven; banners
-  ondermijnen precies wat je verkoopt.
+- **Meer advertenties dan één per scherm, of advertenties in het dagboek.**
+  Dit is een app om van je scherm weg te blijven; ga je schreeuwen, dan
+  ondermijn je precies wat je verkoopt.
 - **Data verkopen.** Er staat niets op een server, en dat is een verkoopargument.
 - **De gratis versie uitkleden.** Iemand die niets betaalt, is je beste kanaal:
   deze app verspreidt zich via mensen die iets moois hebben gemaakt en dat laten zien.

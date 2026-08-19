@@ -83,6 +83,7 @@
   </div>
 
   <div id="vandaagHero"></div>
+  <div id="vandaagPlan"></div>
 
   <div class="duo">
     <button class="tegel" data-scherm="ontdek">
@@ -152,19 +153,24 @@
   </div>
 </section>
 
-<!-- ═══════════════════════════════════════════════ BUURT ══ -->
-<section class="scherm" id="scherm-buurt">
+<!-- ═══════════════════════════════════════════════ SAMEN ══ -->
+<section class="scherm" id="scherm-samen">
   <header class="schermkop">
-    <h1>In de buurt</h1>
-    <button class="rondknop" id="knopBuurtLocatie" title="Gebruik mijn locatie">📍</button>
+    <h1>Samen</h1>
+    <button class="rondknop" id="knopNieuwPlan" title="Nieuwe uitnodiging">＋</button>
   </header>
 
+  <div id="plannenLijst"></div>
+
+  <h2 class="kopje">Wat is er te doen in de buurt?</h2>
   <div class="zoekrij">
     <input type="text" id="buurtPlaats" class="invoer" placeholder="Plaatsnaam">
+    <button class="rondknop" id="knopBuurtLocatie" title="Gebruik mijn locatie">📍</button>
     <button class="knop knop--primair" id="knopBuurt">Zoek</button>
   </div>
 
   <div class="rooster" id="buurtRooster"></div>
+  <div id="samenReclame"></div>
   <div id="buurtPartner"></div>
 </section>
 
@@ -174,12 +180,47 @@
     <h1>Ik</h1>
   </header>
 
+  <div class="kaart">
+    <div class="profiel">
+      <button class="avatar" id="avatarKnop" aria-label="Kies een profielfoto"><span id="avatarInhoud">🙂</span></button>
+      <div class="profiel__velden">
+        <input class="invoer" id="naamInput" placeholder="Je naam" maxlength="40" autocomplete="given-name">
+        <input class="invoer" id="bioInput" placeholder="Eén zin over jou" maxlength="140">
+      </div>
+    </div>
+    <input type="file" id="fotoInvoer" accept="image/*" hidden>
+    <div class="knoprij">
+      <button class="knop knop--primair knop--vol" id="knopProfielBewaar">Bewaar profiel</button>
+      <button class="knop knop--stil knop--vol" id="knopFotoWeg" hidden>Foto verwijderen</button>
+    </div>
+    <p class="uitleg" id="profielMelding">Je naam staat op uitnodigingen die je verstuurt. Je foto en bio
+      blijven op dit toestel.</p>
+  </div>
+
   <div class="cijfers" id="cijfers"></div>
 
   <div class="kaart">
-    <h2 class="kaart__titel">Wat je leuk vindt</h2>
-    <div class="chips chips--wikkel" id="interesseKeuze"></div>
+    <h2 class="kaart__titel">Samen doen</h2>
+    <label class="schakel">
+      <input type="checkbox" id="samenAan">
+      <span>Ik doe dingen graag samen met anderen</span>
+    </label>
+    <div id="samenStraal" hidden>
+      <span class="uitleg">Hoe ver wil je daarvoor reizen?</span>
+      <div class="chips chips--wikkel" data-veld-straal>
+        <button class="chip" data-waarde="1">Mijn wijk</button>
+        <button class="chip" data-waarde="2">Mijn dorp of stad</button>
+        <button class="chip" data-waarde="3">Regio</button>
+      </div>
+    </div>
+    <p class="uitleg">Zet dit aan en je krijgt vaker ideeën waar een tweede persoon bij hoort.
+      Uitnodigen kan altijd: bij elk idee dat samen kan zit een knop ervoor.</p>
   </div>
+
+  <button class="rijknop" id="knopInteresses">
+    <span>Wat je leuk vindt</span>
+    <span class="rijknop__waarde" id="interesseSamenvatting">kies je smaak ›</span>
+  </button>
 
   <div class="kaart">
     <h2 class="kaart__titel">Jouw plaats</h2>
@@ -208,7 +249,7 @@
   <button class="balk__knop is-actief" data-scherm="vandaag"><span>🏠</span>Vandaag</button>
   <button class="balk__knop" data-scherm="ontdek"><span>✨</span>Ontdek</button>
   <button class="balk__knop" data-scherm="dagboek"><span>📔</span>Dagboek</button>
-  <button class="balk__knop" data-scherm="buurt"><span>📍</span>Buurt</button>
+  <button class="balk__knop" data-scherm="samen"><span>🤝</span>Samen</button>
   <button class="balk__knop" data-scherm="ik"><span>💛</span>Ik</button>
 </nav>
 
@@ -246,6 +287,8 @@
 <script src="js/weer.js"></script>
 <script src="js/buurt.js"></script>
 <script src="js/betaling.js"></script>
+<script src="js/advertenties.js"></script>
+<script src="js/samen.js"></script>
 <script src="js/dagboek.js"></script>
 <script src="js/app.js"></script>
 </body>

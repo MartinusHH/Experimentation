@@ -25,7 +25,7 @@ function suggesties(opties) {
   const {
     interesses = [], tijd = 60, budget = 'investering',
     plek = 'egaal', sociaal = 'egaal', energie = 2,
-    weer = null, vermijd = [], favorieten = [], plus = false
+    weer = null, vermijd = [], favorieten = [], plus = false, samenVoorkeur = false
   } = opties;
 
   const buitenIsFijn = weer ? weer.buitenScore >= 60 : null;
@@ -81,6 +81,11 @@ function suggesties(opties) {
       }
     }
     if (weer && a.plek === 'binnen' && buitenIsFijn === false) score += 10;
+
+    /* --- samen doen ---------------------------------------------------- */
+    // Wie in zijn profiel aangaf dingen graag samen te doen, krijgt vaker
+    // activiteiten waar een tweede persoon bij hoort.
+    if (samenVoorkeur && a.sociaal === 'samen') score += 14;
 
     /* --- Offline+ ------------------------------------------------------ */
     // Pakket-activiteiten blijven zichtbaar zonder abonnement, maar dringen

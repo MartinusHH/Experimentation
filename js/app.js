@@ -16,6 +16,9 @@ const STANDAARD = {
   gedaan: [],
   gezien: [],
   dagboek: {},
+  profiel: { naam: '', foto: '', bio: '', samen: false, straal: 2 },
+  plannen: [],
+  advertentieToestemming: null,
   plan: 'gratis',
   plusTot: null,
   proefTot: null,
@@ -42,6 +45,8 @@ function laad() {
     return {
       ...STANDAARD, ...opgeslagen,
       filters: { ...STANDAARD.filters, ...(opgeslagen.filters || {}) },
+      profiel: { ...LEEG_PROFIEL, ...(opgeslagen.profiel || {}) },
+      plannen: opgeslagen.plannen || [],
       dagboek: opgeslagen.dagboek || {}
     };
   } catch {
@@ -92,7 +97,7 @@ function naarScherm(naam) {
   if (naam === 'vandaag') tekenVandaag();
   if (naam === 'ontdek') tekenOntdek();
   if (naam === 'dagboek') tekenDagboek();
-  if (naam === 'buurt') tekenBuurt();
+  if (naam === 'samen') tekenSamen();
   if (naam === 'ik') tekenIk();
 }
 
@@ -156,6 +161,7 @@ $('#wizardKlaar').addEventListener('click', () => {
   bewaar();
   $('#wizard').hidden = true;
   naarScherm('vandaag');
+  verwerkWachtendPlan();
   if (state.plaats) haalWeerOp();
 });
 
@@ -171,7 +177,8 @@ function groet() {
 
 function tekenVandaag() {
   $('#vandaagDatum').textContent = new Date().toLocaleDateString('nl-NL', { weekday: 'long', day: 'numeric', month: 'long' });
-  $('#vandaagGroet').textContent = groet();
+  const naam = (state.profiel.naam || '').trim().split(' ')[0];
+  $('#vandaagGroet').textContent = naam ? `${groet()}, ${naam}` : groet();
   $('#reeksGetal').textContent = reeks(state);
 
   // De balk heeft drie standen; kies degene die het dichtst bij je keuze ligt.
@@ -194,7 +201,25 @@ function tekenVandaag() {
     ? `${meervoud(state.interesses.length, 'interesse', 'interesses')} ingesteld`
     : 'stel je smaak in';
 
+  tekenPlanOpVandaag();
   tekenWeerstrip();
+}
+
+function tekenPlanOpVandaag() {
+  const komend = komendePlannen(state)[0];
+  $('#vandaagPlan').innerHTML = komend ? planKaart(komend) : '';
+}
+
+function planKaart(plan) {
+  const wie = plan.rol === 'gast'
+    ? `${veilig(plan.naam || 'Iemand')} nodigde je uit`
+    : plan.naam ? 'Jouw uitnodiging' : 'Jouw plan';
+  return `
+    <button class="plan ${plan.status === 'open' ? 'plan--open' : ''}" data-plan="${plan.id}">
+      <span class="plan__wie">${wie}${plan.status === 'open' ? ' · nog niet beantwoord' : ''}</span>
+      <span class="plan__titel">${veilig(plan.titel)}</span>
+      <span class="plan__wanneer">${veilig(planLabel(plan))}${plan.plaats ? ` · ${veilig(plan.plaats)}` : ''}</span>
+    </button>`;
 }
 
 $('#vandaagTijd').addEventListener('click', (e) => {
@@ -226,6 +251,7 @@ function opties(extra = {}) {
     vermijd: state.gezien.slice(-6),
     favorieten: state.favorieten,
     plus: heeftPlus(state),
+    samenVoorkeur: state.profiel.samen,
     ...extra
   };
 }
@@ -250,7 +276,16 @@ function tekenOntdek() {
     $('#knopMeer').hidden = true;
     return;
   }
-  doel.innerHTML = zichtbareIdeeen().map((s) => ideeKaart(s)).join('');
+  const kaarten = zichtbareIdeeen().map((s) => ideeKaart(s));
+  const reclame = advertentieHtml(state, 'ontdek');
+  if (reclame && kaarten.length > ADVERTENTIES.naHoeveelIdeeen) {
+    kaarten.splice(ADVERTENTIES.naHoeveelIdeeen, 0, reclame);
+  } else if (reclame) {
+    kaarten.push(reclame);
+  }
+  doel.innerHTML = kaarten.join('');
+  laadAdvertentieNetwerk(state);
+  misschienVraagToestemming();
   $('#knopMeer').hidden = toonAantal >= ontdekLijst.length;
 }
 
@@ -326,6 +361,7 @@ function openIdee(id) {
     ${spullen}
     <div class="knoprij">
       <button class="knop knop--primair knop--vol" data-start="${a.id}">Ik ga dit doen</button>
+      ${magSamen(a) ? `<button class="knop knop--vol" data-samen="${a.id}">Samen doen — nodig iemand uit</button>` : ''}
       ${a.zoek ? `<a class="knop knop--vol" href="${zoekLink(a, state.plaats)}" target="_blank" rel="noopener">Zoek uitleg ↗</a>` : ''}
       <button class="knop knop--vol" data-favoriet="${a.id}">${favoriet ? '💖 Bewaard' : '🤍 Bewaar voor later'}</button>
       <button class="knop knop--stil knop--vol" data-anders="${a.id}">Toon me iets anders</button>
@@ -465,10 +501,16 @@ function tekenDagboek() {
       title="${s.naam}" aria-label="${s.naam}">${s.emoji}</button>`).join('');
 
   const gedaan = activiteitenOp(state, dagHuidig);
+  const gepland = plannenOp(state, dagHuidig);
   const minuten = gedaan.reduce((som, g) => som + g.minuten, 0);
-  $('#dagActiviteiten').innerHTML = gedaan.length
-    ? gedaan.map((g) => `<div class="logregel"><div>${veilig(g.titel)}</div><span>${g.minuten} min</span></div>`).join('')
-      + `<p class="uitleg">Samen ${meervoud(minuten, 'minuut', 'minuten')} zonder telefoon.</p>`
+
+  const regels = gedaan.map((g) =>
+    `<div class="logregel"><div>${veilig(g.titel)}</div><span>${g.minuten} min</span></div>`).join('')
+    + gepland.map((p) =>
+      `<div class="logregel"><div>${veilig(p.titel)}</div><span>${veilig(p.tijd || 'gepland')}${p.naam ? ` · met ${veilig(p.naam)}` : ''}</span></div>`).join('');
+
+  $('#dagActiviteiten').innerHTML = regels
+    ? regels + (minuten ? `<p class="uitleg">Samen ${meervoud(minuten, 'minuut', 'minuten')} zonder telefoon.</p>` : '')
     : '<p class="uitleg">Nog niets gelogd. Wat je afrondt met de timer komt hier vanzelf te staan.</p>';
 }
 
@@ -545,36 +587,50 @@ $('#bladInhoud').addEventListener('click', (e) => {
   naarScherm('dagboek');
 });
 
-/* ═══════════════════════════════════════════════ buurt ══ */
+/* ═══════════════════════════════════════════════ samen ══ */
 
-function tekenBuurt() {
+let buurtCache = [];
+
+function tekenSamen() {
+  const plannen = komendePlannen(state);
+  $('#plannenLijst').innerHTML = plannen.length
+    ? `<div class="lijst">${plannen.map(planKaart).join('')}</div>`
+    : `<div class="kaart kaart--zacht">
+         <b>Samen is leuker</b>
+         <span class="uitleg">Kies een idee en stuur iemand een uitnodiging. Dat is één link —
+           de ander hoeft geen account, alleen deze app.</span>
+         <button class="knop knop--primair knop--vol" id="knopEersteUitnodiging">Nodig iemand uit</button>
+       </div>`;
+
+  const eerste = $('#knopEersteUitnodiging');
+  if (eerste) eerste.addEventListener('click', kiesSamenActiviteit);
+
   $('#buurtPlaats').value = $('#buurtPlaats').value || state.plaats;
   const plaats = ($('#buurtPlaats').value || state.plaats || '').trim();
-  const tips = buurtTips(plaats, state.interesses);
+  buurtCache = buurtTips(plaats, state.interesses);
 
-  $('#buurtRooster').innerHTML = tips.map((t, i) => `
+  $('#buurtRooster').innerHTML = buurtCache.map((t, i) => `
     <button class="tegel" data-buurt="${i}" style="border-left:5px solid ${t.relevant ? 'var(--perzik-diep)' : 'var(--lucht-diep)'}">
       <span class="tegel__emoji">${t.emoji}</span>
       <span class="tegel__titel">${veilig(t.titel)}</span>
       <span class="tegel__sub">${veilig(t.tekst)}</span>
     </button>`).join('');
 
+  $('#samenReclame').innerHTML = advertentieHtml(state, 'samen');
+  laadAdvertentieNetwerk(state);
+
   const aanmeld = partnerAanmeldLink(plaats);
   $('#buurtPartner').innerHTML = PARTNERS.length
     ? PARTNERS.map((p) => `<div class="kaart"><b>${veilig(p.naam)}</b><span class="uitleg">${veilig(p.tekst)}</span>
         <a class="knop knop--primair knop--vol" href="${p.url}" target="_blank" rel="noopener sponsored">Bekijk ↗</a>
         <span class="uitleg">Betaalde plaatsing</span></div>`).join('')
-    : `<div class="kaart kaart--zacht">
+    : `<div class="kaart">
          <b>Organiseer je zelf iets in ${veilig(plaats || 'de buurt')}?</b>
          <span class="uitleg">Workshops, clubs en cursussen kunnen hier opvallen voor mensen die
            precies daarnaar op zoek zijn.</span>
          ${aanmeld ? `<a class="knop knop--vol" href="${aanmeld}">Meld je aan als partner</a>` : ''}
        </div>`;
-
-  buurtCache = tips;
 }
-
-let buurtCache = [];
 
 $('#buurtRooster').addEventListener('click', (e) => {
   const tegel = e.target.closest('[data-buurt]');
@@ -590,7 +646,7 @@ $('#buurtRooster').addEventListener('click', (e) => {
 $('#knopBuurt').addEventListener('click', () => {
   const plaats = $('#buurtPlaats').value.trim();
   if (plaats && !state.plaats) { state.plaats = plaats; bewaar(); }
-  tekenBuurt();
+  tekenSamen();
 });
 
 $('#knopBuurtLocatie').addEventListener('click', async () => {
@@ -602,9 +658,158 @@ $('#knopBuurtLocatie').addEventListener('click', async () => {
     $('#buurtPlaats').value = naam;
     if (!state.plaats) state.plaats = naam;
     bewaar();
-    tekenBuurt();
+    tekenSamen();
   } catch (fout) {
     toost(fout.message);
+  }
+});
+
+$('#knopNieuwPlan').addEventListener('click', kiesSamenActiviteit);
+
+/** Stap 1: waarvoor nodig je iemand uit? */
+function kiesSamenActiviteit() {
+  const lijst = suggesties(opties({ sociaal: 'samen' })).slice(0, 6);
+  openBlad('Wat gaan jullie doen?', lijst.length
+    ? `<div class="lijst">${lijst.map((s) => ideeKaart(s)).join('')}</div>
+       <p class="uitleg">Kies een idee; in het volgende scherm zet je de dag en de plek erbij.</p>`
+    : '<p class="leeg">Verruim je filters bij Ontdek, dan vind ik iets om samen te doen.</p>');
+}
+
+/** Stap 2: wanneer en waar? */
+function openUitnodiging(activiteitId) {
+  const a = ACTIVITEITEN.find((x) => x.id === activiteitId);
+  if (!a) return;
+  const morgen = verschuifDag(dagSleutel(), 1);
+
+  openBlad('Nodig iemand uit', `
+    <p>Voor <b>${veilig(a.titel)}</b>.</p>
+    <div class="blad__veld"><span>Wanneer</span>
+      <div class="zoekrij">
+        <input type="date" class="invoer" id="planDatum" value="${morgen}" min="${dagSleutel()}">
+        <input type="time" class="invoer" id="planTijd" value="14:00">
+      </div>
+    </div>
+    <div class="blad__veld"><span>Waar spreken jullie af?</span>
+      <input class="invoer" id="planPlaats" value="${veilig(state.plaats)}" placeholder="Bijv. bij mij thuis">
+    </div>
+    <div class="blad__veld"><span>Berichtje erbij (mag leeg)</span>
+      <input class="invoer" id="planNotitie" placeholder="Zin om mee te doen?" maxlength="240">
+    </div>
+    <div class="knoprij"><button class="knop knop--primair knop--vol" id="planMaak">Maak de uitnodiging</button></div>
+    <p class="uitleg">Je krijgt een link om te versturen. Daar staat alleen in wat je hier invult —
+      er gaat niets naar een server.</p>`);
+
+  $('#planMaak').addEventListener('click', () => {
+    const plan = maakPlan({
+      activiteitId: a.id, titel: a.titel,
+      datum: $('#planDatum').value || morgen,
+      tijd: $('#planTijd').value,
+      plaats: $('#planPlaats').value.trim(),
+      notitie: $('#planNotitie').value.trim(),
+      naam: state.profiel.naam.trim()
+    });
+    bewaarPlan(state, plan);
+    bewaar();
+    toonDeelblad(plan);
+    tekenVandaag();
+  });
+}
+
+/** Stap 3: versturen. */
+function toonDeelblad(plan) {
+  const link = uitnodigingsLink(plan);
+  openBlad('Klaar om te versturen', `
+    ${planKaart(plan)}
+    <div class="knoprij">
+      <button class="knop knop--primair knop--vol" id="planDeel">Versturen…</button>
+      <button class="knop knop--vol" id="planKopieer">Kopieer de link</button>
+    </div>
+    <div class="blad__veld"><span>De link</span>
+      <input class="invoer" id="planLink" value="${veilig(link)}" readonly></div>
+    <p class="uitleg">Stuur hem via WhatsApp, Signal of sms. Wie hem opent ziet jouw uitnodiging
+      ${plan.naam ? `van ${veilig(plan.naam)} ` : ''}in zijn eigen app staan.</p>`);
+
+  $('#planDeel').addEventListener('click', async () => {
+    const tekst = `${plan.titel} — ${planLabel(plan)}${plan.plaats ? ` bij ${plan.plaats}` : ''}`;
+    try {
+      if (navigator.share) await navigator.share({ title: 'Offline! samen doen', text: tekst, url: link });
+      else await kopieerLink(link);
+    } catch { /* gebruiker brak het delen af */ }
+  });
+  $('#planKopieer').addEventListener('click', () => kopieerLink(link));
+}
+
+async function kopieerLink(link) {
+  try {
+    await navigator.clipboard.writeText(link);
+    toost('Link gekopieerd');
+  } catch {
+    const veld = $('#planLink');
+    if (veld) { veld.select(); toost('Kopieer de link uit het veld'); }
+  }
+}
+
+/** Een uitnodiging die via een link binnenkomt. */
+function toonBinnenkomendePlan(plan) {
+  openBlad('Je bent uitgenodigd', `
+    <p><b>${veilig(plan.naam || 'Iemand')}</b> vraagt of je meedoet:</p>
+    ${planKaart(plan)}
+    ${plan.notitie ? `<p class="uitleg">“${veilig(plan.notitie)}”</p>` : ''}
+    <div class="knoprij">
+      <button class="knop knop--primair knop--vol" id="planJa">Ja, ik doe mee</button>
+      <button class="knop knop--stil knop--vol" id="planNee">Nu even niet</button>
+    </div>
+    <p class="uitleg">Zeg je ja, dan staat het in je plannen en op de bladzijde van die dag.
+      Laat het de ander zelf even weten — de app stuurt niets rond.</p>`);
+
+  $('#planJa').addEventListener('click', () => {
+    plan.status = 'gaat';
+    bewaarPlan(state, plan);
+    bewaar();
+    sluitBlad();
+    naarScherm('samen');
+    toost('Staat in je plannen');
+  });
+  $('#planNee').addEventListener('click', sluitBlad);
+}
+
+/** Een plan dat al in je lijst staat. */
+function openPlan(id) {
+  const plan = (state.plannen || []).find((p) => p.id === id);
+  if (!plan) return;
+  openBlad(plan.titel, `
+    ${planKaart(plan)}
+    ${plan.notitie ? `<p class="uitleg">“${veilig(plan.notitie)}”</p>` : ''}
+    <div class="knoprij">
+      ${plan.rol === 'ik' ? `<button class="knop knop--primair knop--vol" data-deel="${plan.id}">Stuur de link nog eens</button>` : ''}
+      ${plan.activiteitId ? `<button class="knop knop--vol" data-idee="${plan.activiteitId}">Bekijk het idee</button>` : ''}
+      <button class="knop knop--stil knop--vol" data-planweg="${plan.id}">Haal uit mijn plannen</button>
+    </div>`);
+}
+
+document.addEventListener('click', (e) => {
+  const samen = e.target.closest('[data-samen]');
+  if (samen) { openUitnodiging(samen.dataset.samen); return; }
+
+  const plan = e.target.closest('[data-plan]');
+  if (plan) { openPlan(plan.dataset.plan); return; }
+
+  const deel = e.target.closest('[data-deel]');
+  if (deel) {
+    const p = (state.plannen || []).find((x) => x.id === deel.dataset.deel);
+    if (p) toonDeelblad(p);
+    return;
+  }
+
+  const weg = e.target.closest('[data-planweg]');
+  if (weg) {
+    verwijderPlan(state, weg.dataset.planweg);
+    bewaar();
+    sluitBlad();
+    tekenSamen();
+    tekenVandaag();
+    tekenDagboek();
+    toost('Uit je plannen gehaald');
   }
 });
 
@@ -617,16 +822,90 @@ function tekenIk() {
     <div class="cijfer"><b>${state.gedaan.length}</b><span>gedaan</span></div>
     <div class="cijfer"><b>${reeks(state)}</b><span>${reeks(state) === 1 ? 'dag' : 'dagen'} op rij</span></div>`;
 
-  $('#interesseKeuze').innerHTML = INTERESSES.map((i) =>
-    `<button class="chip ${state.interesses.includes(i.id) ? 'is-aan' : ''}" data-mijn-interesse="${i.id}">
-      ${i.emoji} ${veilig(i.label)}</button>`).join('');
+  $('#interesseSamenvatting').textContent = state.interesses.length
+    ? `${meervoud(state.interesses.length, 'interesse', 'interesses')} ›`
+    : 'kies je smaak ›';
 
   $('#plaatsInput').value = state.plaats;
   $('#knopInstalleer').hidden = !installPrompt;
+  tekenProfiel();
   tekenPlusKaart();
 }
 
-$('#interesseKeuze').addEventListener('click', (e) => {
+function tekenProfiel() {
+  const p = state.profiel;
+  $('#naamInput').value = p.naam;
+  $('#bioInput').value = p.bio;
+  $('#avatarInhoud').innerHTML = p.foto
+    ? `<img src="${p.foto}" alt="Jouw profielfoto">`
+    : veilig(initialen(p.naam));
+  $('#knopFotoWeg').hidden = !p.foto;
+
+  $('#samenAan').checked = Boolean(p.samen);
+  $('#samenStraal').hidden = !p.samen;
+  $$('[data-veld-straal] .chip').forEach((c) =>
+    c.classList.toggle('is-aan', Number(c.dataset.waarde) === p.straal));
+}
+
+$('#avatarKnop').addEventListener('click', () => $('#fotoInvoer').click());
+
+$('#fotoInvoer').addEventListener('change', async (e) => {
+  const bestand = e.target.files && e.target.files[0];
+  if (!bestand) return;
+  try {
+    state.profiel.foto = await verkleinFoto(bestand);
+    bewaar();
+    tekenProfiel();
+    toost('Foto opgeslagen op dit toestel');
+  } catch (fout) {
+    toost(fout.message);
+  }
+  e.target.value = '';
+});
+
+$('#knopFotoWeg').addEventListener('click', () => {
+  state.profiel.foto = '';
+  bewaar();
+  tekenProfiel();
+});
+
+$('#knopProfielBewaar').addEventListener('click', () => {
+  state.profiel.naam = $('#naamInput').value.trim();
+  state.profiel.bio = $('#bioInput').value.trim();
+  bewaar();
+  tekenProfiel();
+  tekenVandaag();
+  toost('Profiel opgeslagen');
+});
+
+$('#samenAan').addEventListener('change', (e) => {
+  state.profiel.samen = e.target.checked;
+  bewaar();
+  $('#samenStraal').hidden = !state.profiel.samen;
+  tekenOntdek();
+  tekenVandaag();
+  toost(state.profiel.samen ? 'Je krijgt nu vaker ideeën om samen te doen' : 'Weer alle ideeën door elkaar');
+});
+
+$('[data-veld-straal]').addEventListener('click', (e) => {
+  const chip = e.target.closest('.chip');
+  if (!chip) return;
+  state.profiel.straal = Number(chip.dataset.waarde);
+  bewaar();
+  tekenProfiel();
+});
+
+$('#knopInteresses').addEventListener('click', () => {
+  openBlad('Wat je leuk vindt', `
+    <p class="uitleg">Hoe meer je aanvinkt, hoe persoonlijker de suggesties.</p>
+    <div class="chips chips--wikkel">
+      ${INTERESSES.map((i) => `<button class="chip ${state.interesses.includes(i.id) ? 'is-aan' : ''}"
+        data-mijn-interesse="${i.id}">${i.emoji} ${veilig(i.label)}</button>`).join('')}
+    </div>
+    <button class="knop knop--primair knop--vol" data-sluit>Klaar</button>`);
+});
+
+document.addEventListener('click', (e) => {
   const knop = e.target.closest('[data-mijn-interesse]');
   if (!knop) return;
   const id = knop.dataset.mijnInteresse;
@@ -634,6 +913,9 @@ $('#interesseKeuze').addEventListener('click', (e) => {
     ? state.interesses.filter((x) => x !== id) : [...state.interesses, id];
   knop.classList.toggle('is-aan');
   bewaar();
+  tekenIk();
+  tekenOntdek();
+  tekenVandaag();
 });
 
 $('#knopPlaatsOpslaan').addEventListener('click', () => {
@@ -645,7 +927,7 @@ $('#knopPlaatsOpslaan').addEventListener('click', () => {
 
 $('#knopWissen').addEventListener('click', () => {
   if (!confirm('Alles wissen? Je interesses, dagboek, favorieten en logboek verdwijnen.')) return;
-  state = { ...STANDAARD, filters: { ...STANDAARD.filters }, dagboek: {} };
+  state = { ...STANDAARD, filters: { ...STANDAARD.filters }, dagboek: {}, plannen: [], profiel: { ...LEEG_PROFIEL } };
   try { localStorage.removeItem(OPSLAG_SLEUTEL); } catch { /* niets */ }
   weer = null;
   dagHuidig = dagSleutel();
@@ -666,6 +948,11 @@ $('#knopExport').addEventListener('click', () => {
 });
 
 /* ═════════════════════════════════════════════ Offline+ ══ */
+
+/** Na een wijziging die overal doorwerkt (plan, profiel, advertenties). */
+function hertekenAlles() {
+  tekenVandaag(); tekenOntdek(); tekenSamen(); tekenIk();
+}
 
 function tekenPlusKaart() {
   const plus = heeftPlus(state);
@@ -713,7 +1000,7 @@ function openPlusBlad(activiteit) {
     if (startProef(state)) {
       bewaar();
       sluitBlad();
-      tekenIk(); tekenOntdek(); tekenVandaag();
+      hertekenAlles();
       toost(`Je proefperiode van ${CONFIG.proefDagen} dagen loopt`);
     }
   });
@@ -727,13 +1014,49 @@ function openPlusBlad(activiteit) {
       state.plusTot = uitslag.tot;
       bewaar();
       sluitBlad();
-      tekenIk(); tekenOntdek(); tekenVandaag();
+      hertekenAlles();
       toost(uitslag.test ? 'Testperiode van 30 dagen geactiveerd' : 'Offline+ is actief. Dank je wel!');
     } catch (fout) {
       melding.textContent = fout.message;
     }
   });
 }
+
+/* ═══════════════════════════════════════ advertenties ══ */
+
+let toestemmingGevraagd = false;
+
+/**
+ * Een advertentienetwerk zet cookies, dus dat vragen we eerst. Zolang er geen
+ * netwerk is ingesteld gebeurt hier niets en zie je alleen eigen advertenties.
+ */
+function misschienVraagToestemming() {
+  if (toestemmingGevraagd || !ADVERTENTIES.actief || !ADVERTENTIES.netwerk) return;
+  if (heeftPlus(state) || advertentieToestemming(state)) return;
+  toestemmingGevraagd = true;
+
+  openBlad('Advertenties', `
+    <p>De gratis versie wordt betaald met advertenties. Het netwerk dat ze levert
+      gebruikt daarvoor cookies.</p>
+    <div class="knoprij">
+      <button class="knop knop--primair knop--vol" data-toestemming="ja">Dat is goed</button>
+      <button class="knop knop--vol" data-toestemming="nee">Liever niet</button>
+      <button class="knop knop--stil knop--vol" data-plus>Liever helemaal geen advertenties (Offline+)</button>
+    </div>
+    <p class="uitleg">Zeg je nee, dan zie je alleen advertenties die wij zelf plaatsen —
+      zonder cookies en zonder dat er iets over jou wordt doorgegeven.</p>`);
+}
+
+document.addEventListener('click', (e) => {
+  const knop = e.target.closest('[data-toestemming]');
+  if (!knop) return;
+  zetAdvertentieToestemming(state, knop.dataset.toestemming);
+  bewaar();
+  sluitBlad();
+  tekenOntdek();
+  tekenSamen();
+  toost(knop.dataset.toestemming === 'ja' ? 'Dank je — dit houdt de app gratis' : 'Genoteerd');
+});
 
 /* ═══════════════════════════════════════════════ weer ══ */
 
@@ -872,11 +1195,22 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
 
 /* ═══════════════════════════════════════════════ start ══ */
 
+let wachtendPlan = planUitLink(location.hash);
+
+function verwerkWachtendPlan() {
+  if (!wachtendPlan) return;
+  const plan = wachtendPlan;
+  wachtendPlan = null;
+  history.replaceState(null, '', location.pathname + location.search);
+  setTimeout(() => toonBinnenkomendePlan(plan), 400);
+}
+
 function start() {
   if (!state.onboarding) {
     toonWizard();
   } else {
     naarScherm('vandaag');
+    verwerkWachtendPlan();
     if (state.plaats) haalWeerOp().catch(() => { /* stil: strip blijft staan */ });
   }
 }

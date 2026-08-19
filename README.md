@@ -14,8 +14,8 @@ Geen build-stap, geen dependencies, geen account: gewone HTML, CSS en JavaScript
 | **Vandaag** | Het weer in één regel, één idee dat nu past, en of je vandaag al iets hebt geschreven. Drie knoppen voor hoeveel tijd je hebt. |
 | **Ontdek** | Alle suggesties. De filters zitten in een blad achter *Verfijn*, zodat het scherm kort blijft. 🎲 geeft één willekeurig idee. |
 | **Dagboek** | Eén bladzijde per dag: drie dingen waar je dankbaar voor bent, je stemming, een notitie — en automatisch wat je die dag hebt gedaan. |
-| **Buurt** | Zeven ingangen naar wat er in jouw plaats te doen is: uitagenda, workshops, wandelroutes, Repair Café, buurthuis, markten, sportclubs. |
-| **Ik** | Je interesses, je plaats, je cijfers, Offline+ en het opruimen van je gegevens. |
+| **Samen** | Je plannen met anderen, uitnodigingen versturen, en zeven ingangen naar wat er in jouw plaats te doen is: uitagenda, workshops, wandelroutes, Repair Café, buurthuis, markten, sportclubs. |
+| **Ik** | Je profiel (naam, foto, bio), je interesses, je plaats, je cijfers en Offline+. |
 
 Details staan altijd in een blad dat omhoog komt (idee, filters, weer, archief,
 Offline+), nooit als extra rij op het scherm zelf. Alle knoppen hebben dezelfde
@@ -27,6 +27,25 @@ Elke bladzijde hoort bij een datum en heeft een bladzijdenummer dat meetelt
 zodra er iets op staat. Wat je met de timer afrondt, komt vanzelf op de
 bladzijde van die dag te staan — je hoeft dus nooit te onthouden wat je deed.
 Je reeks (🔥) telt de dagen op rij waarop je iets deed of schreef.
+
+## Samen doen
+
+Een uitnodiging is één link. Je kiest een idee, zet er een dag, tijd en plek
+bij, en stuurt de link via WhatsApp of sms. Wie hem opent ziet jouw uitnodiging
+in zijn eigen app en kan hem aannemen; hij komt dan bij zijn plannen en op de
+bladzijde van die dag. Geen server, geen account, geen adresboek — in de link
+staat alleen wat je zelf invulde.
+
+Mensen in de buurt vinden die hetzelfde willen, vraagt wél een backend. Hoe je
+dat klein en veilig houdt (en waarom je er nog niet aan moet beginnen) staat in
+**[docs/samen.md](docs/samen.md)**.
+
+## Je profiel
+
+Naam, foto en één zin over jezelf, op het **Ik**-scherm. Je naam staat op de
+uitnodigingen die je verstuurt en in de begroeting; je foto wordt op je toestel
+verkleind tot 256 px en gaat nergens heen. De schakelaar *"ik doe dingen graag
+samen"* zorgt dat je vaker ideeën krijgt waar een tweede persoon bij hoort.
 
 ## Wat er online gebeurt
 
@@ -63,10 +82,16 @@ Open de URL op je telefoon en kies "Zet op beginscherm".
 
 ## Geld verdienen
 
-Drie bronnen, allemaal al ingebouwd en uit te zetten met één regel configuratie
-in `js/betaling.js`: affiliate-links op de materialen van een idee, het
-abonnement **Offline+** (€2,99 p/m) voor extra pakketten, archief en export, en
-betaalde plekken voor lokale workshops in het buurt-scherm.
+Vier bronnen, allemaal ingebouwd en aan te zetten met één regel configuratie:
+
+- **Advertenties** in de gratis versie (`js/advertenties.js`) — hooguit één per
+  scherm, alleen op Ontdek en Samen, nooit in het dagboek, en geen netwerkscript
+  zonder toestemming.
+- **Offline+**, €3,- per maand: haalt de advertenties weg en geeft de extra
+  pakketten, je hele archief, export en de weekplanner.
+- **Affiliate** op de materialen die bij een idee horen.
+- **Betaalde plekken** voor lokale workshops en clubs op het Samen-scherm.
+
 De afwegingen, de cijfers en de stappen staan in **[docs/verdienmodel.md](docs/verdienmodel.md)**.
 
 ## Hoe het in elkaar zit
@@ -81,6 +106,8 @@ js/engine.js      de suggestie-motor: filtert hard, scoort zacht
 js/weer.js        Open-Meteo, het "buiten-gevoel" en het beste moment
 js/buurt.js       de bronnen voor activiteiten in de buurt
 js/betaling.js    affiliate, Offline+ en de partnerplekken
+js/advertenties.js advertentieplekken, toestemming en eigen advertenties
+js/samen.js       uitnodigingen als link, plannen en je profielfoto
 js/dagboek.js     bladzijden, reeks, archief en export
 js/app.js         schermen, bladen, timer en opslag
 ```

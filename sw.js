@@ -6,11 +6,12 @@
  * eerst online en vallen daarna terug op wat we hebben.
  */
 
-const CACHE = 'offline-app-v2';
+const CACHE = 'offline-app-v3';
 const SCHIL = [
   './', './index.html', './styles.css', './manifest.json',
   './js/data.js', './js/engine.js', './js/weer.js', './js/buurt.js',
-  './js/betaling.js', './js/dagboek.js', './js/app.js',
+  './js/betaling.js', './js/advertenties.js', './js/samen.js',
+  './js/dagboek.js', './js/app.js',
   './icons/icoon-192.png', './icons/icoon-512.png'
 ];
 
