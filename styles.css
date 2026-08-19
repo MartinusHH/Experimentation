@@ -20,35 +20,71 @@
 
   --inkt:       #4a4540;
   --inkt-zacht: #7f776c;
+  --op-mint:    #22332b;   /* tekst op de mintgroene knoppen */
+  --op-lila:    #2b2340;   /* tekst op de lila chips */
+  --fout:       #a35b4b;
+
   --schaduw:    0 6px 20px rgba(120, 104, 88, .10);
   --schaduw-op: 0 10px 28px rgba(120, 104, 88, .16);
   --rond:       20px;
   --rond-klein: 999px;
 }
 
+/* De donkere tinten staan in één lijst, die twee keer wordt gezet: één keer
+   voor "volg mijn systeem" en één keer voor een expliciete donkere keuze. */
+
 @media (prefers-color-scheme: dark) {
-  :root {
-    --creme:      #221f25;
-    --kaart:      #2b2731;
-    --rand:       #3b3543;
-    --mint:       #31473f;
-    --mint-diep:  #6fb094;
-    --lila:       #3b3550;
-    --lila-diep:  #a08fd0;
-    --perzik:     #4b3730;
-    --perzik-diep:#d8a184;
-    --lucht:      #2f3f4f;
-    --lucht-diep: #86b6dd;
-    --boter:      #48412c;
-    --roze:       #48333c;
-    --inkt:       #ece5dc;
-    --inkt-zacht: #ada496;
-    --schaduw:    0 6px 20px rgba(0, 0, 0, .35);
-    --schaduw-op: 0 10px 28px rgba(0, 0, 0, .45);
+  :root:not([data-theme="light"]) {
+  --creme:      #221f25;
+  --kaart:      #2b2731;
+  --rand:       #3b3543;
+  --mint:       #31473f;
+  --mint-diep:  #6fb094;
+  --lila:       #3b3550;
+  --lila-diep:  #a08fd0;
+  --perzik:     #4b3730;
+  --perzik-diep:#d8a184;
+  --lucht:      #2f3f4f;
+  --lucht-diep: #86b6dd;
+  --boter:      #48412c;
+  --roze:       #48333c;
+  --inkt:       #ece5dc;
+  --inkt-zacht: #ada496;
+  --op-mint:    #14201a;
+  --op-lila:    #1d1830;
+  --fout:       #e6a08c;
+  --schaduw:    0 6px 20px rgba(0, 0, 0, .35);
+  --schaduw-op: 0 10px 28px rgba(0, 0, 0, .45);
   }
 }
 
+:root[data-theme="dark"] {
+  --creme:      #221f25;
+  --kaart:      #2b2731;
+  --rand:       #3b3543;
+  --mint:       #31473f;
+  --mint-diep:  #6fb094;
+  --lila:       #3b3550;
+  --lila-diep:  #a08fd0;
+  --perzik:     #4b3730;
+  --perzik-diep:#d8a184;
+  --lucht:      #2f3f4f;
+  --lucht-diep: #86b6dd;
+  --boter:      #48412c;
+  --roze:       #48333c;
+  --inkt:       #ece5dc;
+  --inkt-zacht: #ada496;
+  --op-mint:    #14201a;
+  --op-lila:    #1d1830;
+  --fout:       #e6a08c;
+  --schaduw:    0 6px 20px rgba(0, 0, 0, .35);
+  --schaduw-op: 0 10px 28px rgba(0, 0, 0, .45);
+}
+
 * { box-sizing: border-box; }
+
+/* display:flex/grid wint anders van het hidden-attribuut */
+[hidden] { display: none !important; }
 
 body {
   margin: 0;
@@ -103,8 +139,7 @@ a  { color: inherit; }
   box-shadow: var(--schaduw); transition: transform .15s, background .2s, color .2s;
 }
 .tab:hover { transform: translateY(-1px); }
-.tab.is-actief { background: var(--mint-diep); color: #23342c; font-weight: 600; }
-@media (prefers-color-scheme: dark) { .tab.is-actief { color: #16221c; } }
+.tab.is-actief { background: var(--mint-diep); color: var(--op-mint); font-weight: 600; }
 
 /* ────────────────────────────────────────── panelen ── */
 main { max-width: 760px; margin: 0 auto; }
@@ -130,8 +165,7 @@ main { max-width: 760px; margin: 0 auto; }
   cursor: pointer; transition: background .2s, border-color .2s, transform .12s;
 }
 .chip:hover { transform: translateY(-1px); }
-.chip.is-aan { background: var(--lila-diep); border-color: transparent; color: #2b2340; font-weight: 600; }
-@media (prefers-color-scheme: dark) { .chip.is-aan { color: #1d1830; } }
+.chip.is-aan { background: var(--lila-diep); border-color: transparent; color: var(--op-lila); font-weight: 600; }
 .chips--groot .chip { padding: .6rem 1rem; font-size: .95rem; }
 
 .filters__acties { display: flex; gap: .5rem; flex-wrap: wrap; margin-top: 1.1rem; }
@@ -145,8 +179,7 @@ main { max-width: 760px; margin: 0 auto; }
 }
 .knop:hover { transform: translateY(-1px); box-shadow: var(--schaduw-op); }
 .knop:active { transform: translateY(0); }
-.knop--primair { background: var(--mint-diep); border-color: transparent; color: #22332b; font-weight: 600; }
-@media (prefers-color-scheme: dark) { .knop--primair { color: #14201a; } }
+.knop--primair { background: var(--mint-diep); border-color: transparent; color: var(--op-mint); font-weight: 600; }
 .knop--stil { background: transparent; box-shadow: none; color: var(--inkt-zacht); }
 .knop--breed { display: block; width: 100%; margin: .3rem 0 1rem; }
 .knop--klein { padding: .38rem .8rem; font-size: .84rem; }
@@ -208,15 +241,13 @@ main { max-width: 760px; margin: 0 auto; }
 .weer__advies { margin-top: .8rem; font-size: .95rem; }
 .meter { height: 9px; border-radius: var(--rond-klein); background: var(--rand); overflow: hidden; margin: .6rem 0 .2rem; }
 .meter__vul { height: 100%; background: var(--mint-diep); border-radius: var(--rond-klein); transition: width .5s ease; }
-.fout { color: #a35b4b; font-size: .9rem; }
-@media (prefers-color-scheme: dark) { .fout { color: #e6a08c; } }
+.fout { color: var(--fout); font-size: .9rem; }
 
 /* ─────────────────────────────────────────────── timer ── */
 .timer {
   position: fixed; inset: 0; background: rgba(40, 34, 30, .55);
   backdrop-filter: blur(6px); display: grid; place-items: center; padding: 1rem; z-index: 50;
 }
-.timer[hidden] { display: none; }   /* anders blijft de overlay klikken opvangen */
 .timer__inhoud {
   background: var(--kaart); border-radius: 28px; padding: 2rem 1.6rem; text-align: center;
   box-shadow: var(--schaduw-op); max-width: 380px; width: 100%;
