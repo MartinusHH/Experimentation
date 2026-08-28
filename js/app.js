@@ -1,5 +1,5 @@
 /*
- * Offline!  —  app-logica
+ * Donow  —  app-logica
  *
  * Vijf korte schermen (Vandaag, Ontdek, Dagboek, Buurt, Ik) met een vaste
  * balk onderin. Alles wat detail is, komt omhoog in een blad — zo blijft
@@ -301,7 +301,7 @@ function tekenOntdek() {
 
 /**
  * Zonder abonnement houden we onderin plek vrij voor één pakket-idee: zo zie
- * je wat Offline+ toevoegt zonder dat het de gewone suggesties wegdrukt.
+ * je wat Donow+ toevoegt zonder dat het de gewone suggesties wegdrukt.
  */
 function zichtbareIdeeen() {
   if (heeftPlus(state)) return ontdekLijst.slice(0, toonAantal);
@@ -329,7 +329,7 @@ function ideeKaart({ activiteit: a, redenen, raak, vergrendeld }, opt = {}) {
     </span>
     <span class="idee__pitch">${veilig(a.pitch)}</span>
     <span class="idee__labels">
-      ${vergrendeld ? `<span class="label label--plus">Offline+ · ${veilig(a.pakket)}</span>` : ''}
+      ${vergrendeld ? `<span class="label label--plus">Donow+ · ${veilig(a.pakket)}</span>` : ''}
       ${labels}
     </span>
   </button>`;
@@ -606,8 +606,8 @@ $('#knopArchief').addEventListener('click', () => {
   const slot = !plus && dagen.length > 7
     ? `<div class="kaart kaart--plus">
          <b>Nog ${meervoud(dagen.length - 7, 'oudere bladzijde', 'oudere bladzijden')}</b>
-         <span class="uitleg">Met Offline+ lees je je hele archief terug en kun je het exporteren.</span>
-         <button class="knop knop--primair knop--vol" data-plus>Bekijk Offline+</button>
+         <span class="uitleg">Met Donow+ lees je je hele archief terug en kun je het exporteren.</span>
+         <button class="knop knop--primair knop--vol" data-plus>Bekijk Donow+</button>
        </div>` : '';
 
   openBlad('Archief', regels + slot);
@@ -766,7 +766,7 @@ function toonDeelblad(plan) {
   $('#planDeel').addEventListener('click', async () => {
     const tekst = `${plan.titel} — ${planLabel(plan)}${plan.plaats ? ` bij ${plan.plaats}` : ''}`;
     try {
-      if (navigator.share) await navigator.share({ title: 'Offline! samen doen', text: tekst, url: link });
+      if (navigator.share) await navigator.share({ title: 'Donow samen doen', text: tekst, url: link });
       else await kopieerLink(link);
     } catch { /* gebruiker brak het delen af */ }
   });
@@ -1130,14 +1130,14 @@ $('#knopPrivacy').addEventListener('click', () => {
     </div>
     <div class="blad__veld"><span>Wat er wordt opgeslagen</span>
       <p class="uitleg">Je profiel, interesses en plaats, je dagboek, wat je afrondde, je plannen
-        en of Offline+ actief is. Alles in de opslag van je browser. Wij kunnen daar niet bij.</p>
+        en of Donow+ actief is. Alles in de opslag van je browser. Wij kunnen daar niet bij.</p>
     </div>
     <div class="blad__veld"><span>Wat er naar buiten gaat — en alleen als jij iets doet</span>
       <p class="uitleg">
         • het weerbericht (je plaats of coördinaten naar Open-Meteo)<br>
         • de plaatsnaam bij je locatie, als je op 📍 tikt<br>
         • zoek- en winkellinks, pas als je erop tikt<br>
-        • je licentiesleutel, als je Offline+ activeert<br>
+        • je licentiesleutel, als je Donow+ activeert<br>
         • advertenties: nu niets; komt er een netwerk, dan vragen we eerst toestemming
       </p>
     </div>
@@ -1159,11 +1159,11 @@ $('#knopPrivacy').addEventListener('click', () => {
 
 $('#knopExport').addEventListener('click', async () => {
   if (!heeftPlus(state)) return openPlusBlad();
-  const gelukt = await bewaarBestand(`offline-dagboek-${dagSleutel()}.txt`, exporteerDagboek(state));
+  const gelukt = await bewaarBestand(`donow-dagboek-${dagSleutel()}.txt`, exporteerDagboek(state));
   if (gelukt) toost('Dagboek geëxporteerd');
 });
 
-/* ═════════════════════════════════════════════ Offline+ ══ */
+/* ═════════════════════════════════════════════ Donow+ ══ */
 
 /** Na een wijziging die overal doorwerkt (plan, profiel, advertenties). */
 function hertekenAlles() {
@@ -1174,7 +1174,7 @@ function tekenPlusKaart() {
   const plus = heeftPlus(state);
   $('#plusKaart').innerHTML = `
     <div class="kaart ${plus ? '' : 'kaart--plus'}">
-      <h2 class="kaart__titel">${plus ? '💜 Offline+' : 'Offline+'}</h2>
+      <h2 class="kaart__titel">${plus ? '💜 Donow+' : 'Donow+'}</h2>
       <p class="uitleg">${veilig(planOmschrijving(state))}</p>
       ${plus ? '' : `<button class="knop knop--primair knop--vol" data-plus>Wat krijg ik daarvoor?</button>`}
     </div>`;
@@ -1187,7 +1187,7 @@ function openPlusBlad(activiteit) {
   const maand = koopUrl('maand');
   const jaar = koopUrl('jaar');
 
-  openBlad('Offline+', `
+  openBlad('Donow+', `
     ${activiteit ? `<p><b>${veilig(activiteit.titel)}</b> hoort bij het pakket
       <b>${veilig(activiteit.pakket)}</b>.</p>` : ''}
     <div class="knoprij">
@@ -1231,7 +1231,7 @@ function openPlusBlad(activiteit) {
       bewaar();
       sluitBlad();
       hertekenAlles();
-      toost(uitslag.test ? 'Testperiode van 30 dagen geactiveerd' : 'Offline+ is actief. Dank je wel!');
+      toost(uitslag.test ? 'Testperiode van 30 dagen geactiveerd' : 'Donow+ is actief. Dank je wel!');
     } catch (fout) {
       melding.textContent = fout.message;
     }
@@ -1257,7 +1257,7 @@ function misschienVraagToestemming() {
     <div class="knoprij">
       <button class="knop knop--primair knop--vol" data-toestemming="ja">Dat is goed</button>
       <button class="knop knop--vol" data-toestemming="nee">Liever niet</button>
-      <button class="knop knop--stil knop--vol" data-plus>Liever helemaal geen advertenties (Offline+)</button>
+      <button class="knop knop--stil knop--vol" data-plus>Liever helemaal geen advertenties (Donow+)</button>
     </div>
     <p class="uitleg">Zeg je nee, dan zie je alleen advertenties die wij zelf plaatsen —
       zonder cookies en zonder dat er iets over jou wordt doorgegeven.</p>`);

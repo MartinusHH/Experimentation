@@ -1,5 +1,5 @@
 /*
- * Offline!  —  cloud (nog niet aangesloten)
+ * Donow  —  cloud (nog niet aangesloten)
  *
  * Alles waarvoor een server nodig is, loopt via deze ene laag: inloggen,
  * je gegevens op meerdere toestellen, het abonnement, en later het
@@ -50,7 +50,7 @@ function huidigeGebruiker() {
 
 /**
  * De rechten van dit account. De server is hierin de baas — de app mag ze
- * alleen lezen. Zo is Offline+ niet meer te omzeilen door de opslag aan te
+ * alleen lezen. Zo is Donow+ niet meer te omzeilen door de opslag aan te
  * passen, wat nu nog wel kan (zie docs/verdienmodel.md).
  * @returns {Promise<{plusTot: string|null}|null>}
  */

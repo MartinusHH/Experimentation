@@ -1,5 +1,5 @@
 /*
- * Offline!  —  samen doen
+ * Donow  —  samen doen
  *
  * Zonder server, zonder account: een uitnodiging is een link. Je kiest een
  * activiteit, een dag en een plek, en stuurt die link via het kanaal dat je

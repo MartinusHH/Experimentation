@@ -1,5 +1,5 @@
 /*
- * Offline!  —  dagboek & dankbaarheidsdagboek
+ * Donow  —  dagboek & dankbaarheidsdagboek
  *
  * Eén bladzijde per dag. Wat je die dag deed komt er vanzelf bij te staan:
  * elke afgeronde activiteit wordt op de bladzijde van die datum gelogd.
@@ -78,9 +78,9 @@ function datumLabel(sleutel) {
   return datum.toLocaleDateString('nl-NL', opties);
 }
 
-/** Het hele dagboek als leesbare tekst (Offline+). */
+/** Het hele dagboek als leesbare tekst (Donow+). */
 function exporteerDagboek(state) {
-  const regels = ['Offline! — mijn dagboek', ''];
+  const regels = ['Donow — mijn dagboek', ''];
   beschrevenDagen(state).reverse().forEach((sleutel) => {
     const p = leesPagina(state, sleutel);
     const gedaan = activiteitenOp(state, sleutel);

@@ -1,5 +1,5 @@
 /*
- * Offline!  —  suggestie-motor
+ * Donow  —  suggestie-motor
  *
  * Geeft elke activiteit een score op basis van je profiel, je filters
  * en (optioneel) het actuele weer. Hoogste scores komen bovenaan.
@@ -87,7 +87,7 @@ function suggesties(opties) {
     // activiteiten waar een tweede persoon bij hoort.
     if (samenVoorkeur && a.sociaal === 'samen') score += 14;
 
-    /* --- Offline+ ------------------------------------------------------ */
+    /* --- Donow+ ------------------------------------------------------ */
     // Pakket-activiteiten blijven zichtbaar zonder abonnement, maar dringen
     // zich niet op: ze staan net iets lager.
     if (a.plus && !plus) score -= 8;

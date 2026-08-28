@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════════════════════════
-   Offline!  —  pasteltinten, één maat knoppen, korte schermen
+   Donow  —  pasteltinten, één maat knoppen, korte schermen
    ══════════════════════════════════════════════════════════════ */
 
 :root {
@@ -353,6 +353,8 @@ p  { margin: 0; }
 .wizard__stap { display: none; max-width: 420px; margin: 0 auto; gap: .8rem; }
 .wizard__stap.is-actief { display: grid; animation: opkomen .3s ease; }
 .wizard__beeld { font-size: 3.5rem; }
+.uitspraak { font-size: .85rem; color: var(--inkt-zacht); letter-spacing: .02em; }
+.uitspraak i { font-style: normal; opacity: .8; }
 .wizard__tel { font-size: .78rem; color: var(--inkt-zacht); text-transform: uppercase; letter-spacing: .08em; }
 .wizard__knoppen { display: grid; gap: .4rem; }
 

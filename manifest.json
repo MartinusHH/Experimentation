@@ -1,7 +1,7 @@
 {
-  "name": "Offline! — iets leukers dan je telefoon",
-  "short_name": "Offline!",
-  "description": "Persoonlijke suggesties voor wat je kunt doen in plaats van scrollen, met een dankbaarheidsdagboek dat je activiteiten vanzelf bijhoudt.",
+  "name": "Donow — weet je niet wat je moet doen?",
+  "short_name": "Donow",
+  "description": "Dunno? Do now. Persoonlijke suggesties voor wat je kunt doen in plaats van scrollen, met een dagboek dat je activiteiten vanzelf bijhoudt.",
   "lang": "nl",
   "start_url": ".",
   "scope": ".",

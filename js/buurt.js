@@ -1,5 +1,5 @@
 /*
- * Offline!  —  in de buurt
+ * Donow  —  in de buurt
  *
  * Bouwt zoekingangen naar wat er bij jou in de buurt te doen is.
  * Bewust zoeklinks in plaats van één agenda-API: zo werkt het in elke

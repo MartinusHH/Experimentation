@@ -1,4 +1,4 @@
-# 🌿 Offline!
+# 🌿 Donow
 
 Een web-app die je helpt bedenken wát je gaat doen in plaats van scrollen — en
 die bijhoudt wat het je oplevert. Je vertelt waar je blij van wordt (kleding,
@@ -15,10 +15,10 @@ Geen build-stap, geen dependencies, geen account: gewone HTML, CSS en JavaScript
 | **Ontdek** | Alle suggesties. De filters zitten in een blad achter *Verfijn*, zodat het scherm kort blijft. 🎲 geeft één willekeurig idee. |
 | **Dagboek** | Eén bladzijde per dag, met de volle datum en een bladzijdenummer: drie dingen waar je dankbaar voor bent, je stemming, een notitie — en automatisch wat je die dag deed, met het tijdstip erbij. |
 | **Samen** | Je plannen met anderen, uitnodigingen versturen, en zeven ingangen naar wat er in jouw plaats te doen is: uitagenda, workshops, wandelroutes, Repair Café, buurthuis, markten, sportclubs. |
-| **Ik** | Je profiel (naam, foto, bio), je interesses, je plaats, je cijfers en Offline+. |
+| **Ik** | Je profiel (naam, foto, bio), je interesses, je plaats, je cijfers en Donow+. |
 
 Details staan altijd in een blad dat omhoog komt (idee, filters, weer, archief,
-Offline+), nooit als extra rij op het scherm zelf. Alle knoppen hebben dezelfde
+Donow+), nooit als extra rij op het scherm zelf. Alle knoppen hebben dezelfde
 hoogte, alle chips ook.
 
 ## Het dagboek
@@ -71,7 +71,7 @@ Alles staat op je eigen toestel. In de app zelf staat een samenvatting achter
 - **het weerbericht** — [Open-Meteo](https://open-meteo.com), geen sleutel of account;
 - **de plaatsnaam bij je locatie** — alleen als je op 📍 tikt;
 - **de zoeklinks** — pas als je er zelf op klikt;
-- **het activeren van Offline+** — alleen als je een licentiesleutel invoert.
+- **het activeren van Donow+** — alleen als je een licentiesleutel invoert.
 
 Met *Alles verwijderen* op het **Ik**-scherm is alles in één keer weg: je
 dagboek, je plannen, je profiel, je foto en de anonieme apparaatsleutel. De app
@@ -108,7 +108,7 @@ Vier bronnen, allemaal ingebouwd en aan te zetten met één regel configuratie:
 - **Advertenties** in de gratis versie (`js/advertenties.js`) — hooguit één per
   scherm, alleen op Ontdek en Samen, nooit in het dagboek, en geen netwerkscript
   zonder toestemming.
-- **Offline+**, €3,- per maand: haalt de advertenties weg en geeft de extra
+- **Donow+**, €3,- per maand: haalt de advertenties weg en geeft de extra
   pakketten, je hele archief, export en de weekplanner.
 - **Affiliate** op de materialen die bij een idee horen.
 - **Betaalde plekken** voor lokale workshops en clubs op het Samen-scherm.
@@ -122,14 +122,14 @@ index.html        de vijf schermen, de bladen en de wizard
 styles.css        pasteltinten, één maat knoppen, licht én donker
 manifest.json     zodat de app op je beginscherm past
 sw.js             cache van de app zelf, zodat het offline werkt
-js/data.js        129 activiteiten, 18 interesses, 10 Offline+-pakketten
+js/data.js        129 activiteiten, 18 interesses, 10 Donow+-pakketten
 js/links.js       alle zoekopdrachten en vaste bronnen op één plek
 js/engine.js      de suggestie-motor: filtert hard, scoort zacht
 js/weer.js        Open-Meteo, het "buiten-gevoel" en het beste moment
 js/buurt.js       de bronnen voor activiteiten in de buurt
 js/opslag.js      lezen, schrijven, migratie, back-up en samenvoegen
 js/cloud.js       de naad voor account, synchronisatie en abonnement (uit)
-js/betaling.js    affiliate, Offline+ en de partnerplekken
+js/betaling.js    affiliate, Donow+ en de partnerplekken
 js/advertenties.js advertentieplekken, toestemming en eigen advertenties
 js/samen.js       uitnodigingen als link, plannen en je profielfoto
 js/dagboek.js     bladzijden, reeks, archief en export
@@ -163,7 +163,7 @@ als die site verhuist. Een activiteit koppelt zich eraan met
   benodigdheden: ['Naald', 'Draad'],   // worden de materiaal-links
   eersteStap: 'De kleinste stap die je nu kunt zetten.',
   zoek: 'zoekterm voor uitleg',        // leeg laten = geen zoekknop
-  plus: false, pakket: ''              // true + pakketnaam = achter Offline+
+  plus: false, pakket: ''              // true + pakketnaam = achter Donow+
 }
 ```
 

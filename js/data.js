@@ -1,5 +1,5 @@
 /*
- * Offline!  —  activiteitenbibliotheek
+ * Donow  —  activiteitenbibliotheek
  *
  * Elke activiteit heeft tags waarmee de suggestie-motor (js/engine.js)
  * een match maakt met wat jij leuk vindt, hoeveel tijd je hebt,
@@ -901,7 +901,7 @@ const ACTIVITEITEN = [
     zoek: 'sok stoppen uitleg'
   },
 
-  /* ═══════════════════════════════ Offline+ pakketten ═══════════════════════
+  /* ═══════════════════════════════ Donow+ pakketten ═══════════════════════
      Deze staan achter het abonnement. Ze zijn erbij gekomen — er is niets
      weggehaald bij de gratis versie. Zie js/betaling.js. */
 

@@ -1,5 +1,5 @@
 /*
- * Offline!  —  weerbericht
+ * Donow  —  weerbericht
  *
  * Gebruikt Open-Meteo (gratis, geen sleutel nodig) om te kijken of het
  * buiten een beetje te doen is. Werkt de app offline of blokkeert het

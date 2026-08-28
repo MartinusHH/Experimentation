@@ -1,5 +1,5 @@
 /*
- * Offline!  —  opslag
+ * Donow  —  opslag
  *
  * Eén plek waar de gegevens van de app vandaan komen en weer heen gaan.
  * Nu is dat de browseropslag van dit toestel; komt er later een account bij
@@ -11,10 +11,16 @@
  * die dan bepaalt wie er wint als twee toestellen dezelfde dag beschreven.
  */
 
+/* Deze sleutels houden hun oude naam, ook al heet de app nu Donow: ze staan in
+   de browser van bestaande gebruikers, en hernoemen zou hun dagboek onbereikbaar
+   maken. Niemand ziet ze — het is puur interne opslag. */
 const OPSLAG_SLEUTEL = 'offline-app-v3';
 const OUDE_SLEUTELS = ['offline-app-v2', 'offline-app-v1'];
 const SCHEMA_VERSIE = 3;
 const APPARAAT_SLEUTEL = 'offline-apparaat';
+
+const MERK = 'donow';
+const OUDE_MERKEN = ['offline!'];   // back-ups van vóór de naamswijziging
 
 /* ───────────────────────────────────────────── lezen ── */
 
@@ -117,7 +123,7 @@ function wisAlles() {
 
 function maakBackup(state) {
   return JSON.stringify({
-    app: 'offline!', versie: SCHEMA_VERSIE,
+    app: MERK, versie: SCHEMA_VERSIE,
     gemaakt: new Date().toISOString(),
     apparaat: apparaatSleutel(),
     state
@@ -125,7 +131,7 @@ function maakBackup(state) {
 }
 
 function backupBestandsnaam() {
-  return `offline-backup-${dagSleutel()}.json`;
+  return `donow-backup-${dagSleutel()}.json`;
 }
 
 /** Leest een back-upbestand en zegt in gewone taal wat er mis is. */
@@ -134,10 +140,11 @@ function leesBackup(tekst) {
   try {
     data = JSON.parse(tekst);
   } catch {
-    throw new Error('Dit bestand kon ik niet lezen. Kies het back-upbestand van Offline! (.json).');
+    throw new Error('Dit bestand kon ik niet lezen. Kies het back-upbestand van Donow (.json).');
   }
-  if (!data || data.app !== 'offline!' || !data.state) {
-    throw new Error('Dit is geen back-up van Offline!.');
+  const merk = String((data && data.app) || '').toLowerCase();
+  if (!data || !data.state || (merk !== MERK && !OUDE_MERKEN.includes(merk))) {
+    throw new Error('Dit is geen back-up van Donow.');
   }
   if (data.versie > SCHEMA_VERSIE) {
     throw new Error('Deze back-up komt uit een nieuwere versie van de app. Werk de app eerst bij.');

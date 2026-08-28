@@ -1,5 +1,5 @@
 /*
- * Offline!  —  links en zoekopdrachten
+ * Donow  —  links en zoekopdrachten
  *
  * Alle uitgaande links komen hier vandaan, zodat ze op één plek te
  * controleren en te repareren zijn.

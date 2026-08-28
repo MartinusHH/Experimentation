@@ -1,12 +1,12 @@
 /*
- * Offline!  —  service worker
+ * Donow  —  service worker
  *
  * De app zelf komt uit de cache, zodat hij ook werkt zonder verbinding.
  * Het weerbericht en de zoeklinks hebben internet nodig; die proberen we
  * eerst online en vallen daarna terug op wat we hebben.
  */
 
-const CACHE = 'offline-app-v5';
+const CACHE = 'donow-v1';
 const SCHIL = [
   './', './index.html', './styles.css', './manifest.json',
   './js/opslag.js', './js/cloud.js',

@@ -72,7 +72,7 @@ Bescheiden per gebruiker, maar het schaalt mee en kost je niets.
 
 ---
 
-## 2. Offline+ (het abonnement)
+## 2. Donow+ (het abonnement)
 
 **€3,- per maand of €30 per jaar.** Wat je krijgt staat in `PLUS_VOORDELEN`:
 géén advertenties, extra activiteitenpakketten (met kinderen, samen, per
@@ -109,7 +109,7 @@ Tel dat op bij de advertenties hierboven: bij 5.000 gebruikers zit je zo rond
 de €750–1.500 per maand, zonder één lokale partner.
 
 **Eerlijk over de bescherming:** de app kent nog geen account, dus het plan staat
-in de browseropslag. Wie dat wil, kan Offline+ aanzetten zonder te betalen. Bij
+in de browseropslag. Wie dat wil, kan Donow+ aanzetten zonder te betalen. Bij
 €3 is dat voorlopig een prima ruil — een inlogsysteem kost je meer dan wat je aan
 omzeilers verliest.
 
@@ -144,7 +144,7 @@ naaicafés, keramiekstudio's en sportverenigingen zoeken.
 ## Wat je in deze volgorde zou doen
 
 1. **Nu:** bol-partner-id invullen. Kost tien minuten en loopt daarna vanzelf.
-2. **Bij ~200 vaste gebruikers:** Lemon Squeezy koppelen en Offline+ aanzetten,
+2. **Bij ~200 vaste gebruikers:** Lemon Squeezy koppelen en Donow+ aanzetten,
    met de advertenties erbij — die twee versterken elkaar.
 3. **Bij ~1.000 gebruikers in één regio:** langs de eerste vijf lokale partners.
    Persoonlijk, met een scherm van de app erbij. Zij vullen meteen het

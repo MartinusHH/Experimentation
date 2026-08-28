@@ -1,4 +1,4 @@
-# Privacyverklaring — Offline!
+# Privacyverklaring — Donow
 
 *Laatst bijgewerkt: 19 augustus 2026*
 
@@ -18,7 +18,7 @@ Alles wat je in de app invult, staat in de opslag van je eigen browser
 | Je dagboek | dankbaarheid, stemming, notities, per dag |
 | Je activiteiten | wat je afrondde, hoe lang, wanneer |
 | Je plannen | uitnodigingen die je maakte of aannam |
-| Je abonnement | of Offline+ actief is, en tot wanneer |
+| Je abonnement | of Donow+ actief is, en tot wanneer |
 | Een apparaatsleutel | een willekeurig nummer, geen naam of e-mailadres |
 
 Wij kunnen daar niet bij. Wis je de app-gegevens of je browsergeschiedenis, dan
@@ -37,7 +37,7 @@ Vijf dingen, allemaal pas nadat jij iets doet:
 3. **Zoeklinks.** Tik je op "Zoek uitleg", "Video bekijken" of een winkel-link,
    dan open je een nieuw tabblad bij die partij (DuckDuckGo, YouTube, bol.com,
    en de bronnen in `js/links.js`). Daar geldt hun privacybeleid, niet dat van ons.
-4. **Offline+ activeren.** Voer je een licentiesleutel in, dan gaat alleen die
+4. **Donow+ activeren.** Voer je een licentiesleutel in, dan gaat alleen die
    sleutel naar de winkel om te controleren of hij geldig is.
 5. **Advertenties.** In de gratis versie staat er één advertentieplek per
    scherm. Zolang er geen advertentienetwerk is gekoppeld, wordt er niets van

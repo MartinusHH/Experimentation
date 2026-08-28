@@ -1,5 +1,5 @@
 /*
- * Offline!  —  verdienmodel
+ * Donow  —  verdienmodel
  *
  * Drie inkomstenbronnen, oplopend van "werkt vanaf dag één" naar
  * "werkt als de app loopt":
@@ -7,7 +7,7 @@
  *   1. Advertenties in de gratis versie (js/advertenties.js), plus affiliate
  *      op materialen: elk idee heeft benodigdheden, en die linken we naar een
  *      winkel met je partner-id erachter.
- *   2. Offline+ (abonnement). Haalt de advertenties weg en geeft extra
+ *   2. Donow+ (abonnement). Haalt de advertenties weg en geeft extra
  *      activiteitenpakketten, je hele dagboekarchief, export en de weekplanner.
  *   3. Lokale partners. Workshops en clubs die in het buurt-scherm
  *      opvallen; betaald per maand of per aanmelding.
@@ -18,7 +18,7 @@
  */
 
 const CONFIG = {
-  /* Offline+ — checkout draait bij Lemon Squeezy (merchant of record: die
+  /* Donow+ — checkout draait bij Lemon Squeezy (merchant of record: die
      regelt btw en facturen). Licenties valideren mag vanuit de browser,
      dus je hebt hiervoor geen eigen server nodig. */
   winkelMaand: '',            // bijv. https://jouwwinkel.lemonsqueezy.com/buy/<uuid>
@@ -74,12 +74,12 @@ function startProef(state) {
 function planOmschrijving(state) {
   const rechten = state.account && state.account.rechten;
   if (rechten && rechten.plusTot && new Date(rechten.plusTot) > new Date()) {
-    return `Offline+ via je account, tot ${new Date(rechten.plusTot).toLocaleDateString('nl-NL')}`;
+    return `Donow+ via je account, tot ${new Date(rechten.plusTot).toLocaleDateString('nl-NL')}`;
   }
   if (state.plan === 'plus') {
     return state.plusTot
-      ? `Offline+ actief tot ${new Date(state.plusTot).toLocaleDateString('nl-NL')}`
-      : 'Offline+ actief';
+      ? `Donow+ actief tot ${new Date(state.plusTot).toLocaleDateString('nl-NL')}`
+      : 'Donow+ actief';
   }
   const over = proefDagenOver(state);
   if (over > 0) return `Proefperiode: nog ${over} ${over === 1 ? 'dag' : 'dagen'}`;
@@ -99,10 +99,10 @@ async function valideerLicentie(sleutel) {
 
   if (!CONFIG.winkelMaand && !CONFIG.winkelJaar) {
     // Nog geen winkel gekoppeld: alleen de testcode werkt.
-    if (code.toUpperCase() === 'OFFLINE-TEST') {
+    if (['DONOW-TEST', 'OFFLINE-TEST'].includes(code.toUpperCase())) {
       return { geldig: true, tot: new Date(Date.now() + 30 * 864e5).toISOString(), test: true };
     }
-    throw new Error('Er is nog geen winkel gekoppeld aan deze app. Gebruik OFFLINE-TEST om de Plus-functies te bekijken.');
+    throw new Error('Er is nog geen winkel gekoppeld aan deze app. Gebruik DONOW-TEST om de Plus-functies te bekijken.');
   }
 
   const res = await fetch(CONFIG.licentieApi, {
@@ -145,7 +145,7 @@ const PARTNERS = [];
 
 function partnerAanmeldLink(plaats) {
   if (CONFIG.partnerMail) {
-    const onderwerp = encodeURIComponent(`Aanmelding partner Offline! (${plaats || 'onbekend'})`);
+    const onderwerp = encodeURIComponent(`Aanmelding partner Donow (${plaats || 'onbekend'})`);
     return `mailto:${CONFIG.partnerMail}?subject=${onderwerp}`;
   }
   return '';

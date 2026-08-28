@@ -1,7 +1,7 @@
 /*
- * Offline!  —  advertenties
+ * Donow  —  advertenties
  *
- * De gratis versie toont advertenties, Offline+ haalt ze weg. Drie regels
+ * De gratis versie toont advertenties, Donow+ haalt ze weg. Drie regels
  * houden het draaglijk, want een app die je van je scherm weg wil houden mag
  * zelf niet gaan schreeuwen:
  *
@@ -59,7 +59,7 @@ function advertentieHtml(state, scherm) {
     return `<div class="reclame" data-netwerk="${ADVERTENTIES.netwerk}">
       <span class="reclame__label">Advertentie</span>
       <div id="reclameVak"></div>
-      <button class="knop knop--stil knop--vol knop--klein" data-plus>Geen advertenties met Offline+</button>
+      <button class="knop knop--stil knop--vol knop--klein" data-plus>Geen advertenties met Donow+</button>
     </div>`;
   }
 
@@ -71,7 +71,7 @@ function advertentieHtml(state, scherm) {
         <span class="reclame__emoji">${ad.emoji || '📣'}</span>
         <span><b>${ad.titel}</b><span class="uitleg">${ad.tekst}</span></span>
       </a>
-      <button class="knop knop--stil knop--vol knop--klein" data-plus>Geen advertenties met Offline+</button>
+      <button class="knop knop--stil knop--vol knop--klein" data-plus>Geen advertenties met Donow+</button>
     </div>`;
   }
 
@@ -81,10 +81,10 @@ function advertentieHtml(state, scherm) {
     <div class="reclame__inhoud">
       <span class="reclame__emoji">💜</span>
       <span><b>Deze plek is voor advertenties</b>
-      <span class="uitleg">Daarmee blijft de app gratis. Met Offline+ (${CONFIG.prijsMaand} per maand)
+      <span class="uitleg">Daarmee blijft de app gratis. Met Donow+ (${CONFIG.prijsMaand} per maand)
         verdwijnen ze en krijg je de extra pakketten erbij.</span></span>
     </div>
-    <button class="knop knop--vol knop--klein" data-plus>Bekijk Offline+</button>
+    <button class="knop knop--vol knop--klein" data-plus>Bekijk Donow+</button>
   </div>`;
 }
 
