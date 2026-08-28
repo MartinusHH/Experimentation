@@ -1,0 +1,47 @@
+# Zet Pootwijzer op GitHub Pages.
+#
+# Deze workflow doet pas iets als deze map de wortel van een eigen repository
+# is (workflows draaien alleen vanuit .github/workflows in de hoofdmap).
+#
+# Eén keer handmatig aanzetten: Settings → Pages → Source: "GitHub Actions".
+# De workflow-token mag Pages niet zelf aanmaken, dus zonder die klik faalt de
+# eerste stap.
+
+name: Publiceer Pootwijzer op GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  publiceren:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.publicatie.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Zet de site klaar
+        run: |
+          mkdir -p _site
+          cp -r index.html styles.css manifest.json sw.js js icons docs _site/
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - id: publicatie
+        uses: actions/deploy-pages@v4

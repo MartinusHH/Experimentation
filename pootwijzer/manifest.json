@@ -1,0 +1,32 @@
+{
+  "name": "Pootwijzer",
+  "short_name": "Pootwijzer",
+  "description": "Leeftijd, voeding, weeradvies en een handboek van A tot Z voor je hond of kat.",
+  "lang": "nl",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#fbf7f4",
+  "theme_color": "#fbf7f4",
+  "icons": [
+    {
+      "src": "icons/icoon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icoon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icoon-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

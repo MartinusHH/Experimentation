@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Pootwijzer">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f7c9dd"/>
+      <stop offset="1" stop-color="#b0407a"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#g)"/>
+  <g fill="#fff">
+    <ellipse cx="146" cy="214" rx="40" ry="50" transform="rotate(-18 146 214)"/>
+    <ellipse cx="217" cy="164" rx="40" ry="52"/>
+    <ellipse cx="295" cy="164" rx="40" ry="52"/>
+    <ellipse cx="366" cy="214" rx="40" ry="50" transform="rotate(18 366 214)"/>
+    <path d="M256 258c62 0 112 44 124 96 9 41-20 76-63 76-26 0-43-11-61-11s-35 11-61 11c-43 0-72-35-63-76 12-52 62-96 124-96z"/>
+  </g>
+</svg>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Pootwijzer 🐾</title>
+  <meta name="description" content="Pootwijzer: leeftijd, voeding, weeradvies en een A-Z handboek voor je hond of kat. Alles blijft op je eigen toestel." />
+  <meta name="theme-color" content="#fbf7f4" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#16130f" media="(prefers-color-scheme: dark)" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="icons/icoon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="icons/icoon-512.png" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a class="overslaan" href="#hoofd">Naar de inhoud</a>
+
+  <header class="kop">
+    <div class="wikkel kop__rij">
+      <span aria-hidden="true" style="font-size:1.4rem">🐾</span>
+      <h1 class="kop__titel" id="kop-titel">Pootwijzer</h1>
+      <button type="button" class="icoonknop verborgen" id="knop-terug" aria-label="Terug">←</button>
+    </div>
+  </header>
+
+  <main id="hoofd" class="wikkel">
+
+    <!-- Welkom: nog geen dier -->
+    <section class="scherm stapel" id="scherm-welkom" hidden aria-labelledby="welkom-titel">
+      <div class="kaart">
+        <h2 id="welkom-titel">Hoi! Wie woont er bij jou? 🐾</h2>
+        <p class="gedempt">Pootwijzer rekent de leeftijd en het eten van je hond of kat uit, kijkt wat het weer vandaag voor hém betekent, en heeft een handboek van A tot Z. Alles blijft op je eigen toestel.</p>
+        <div class="keuzes" id="soortkeuze"></div>
+      </div>
+      <p class="voetnoot">Geen account, geen server, geen advertenties. Zie <a href="docs/privacy.md">privacy</a>.</p>
+    </section>
+
+    <!-- Wizard: nieuw dier toevoegen -->
+    <section class="scherm stapel" id="scherm-wizard" hidden aria-labelledby="wizard-titel">
+      <div class="kaart">
+        <p class="klein gedempt" id="wizard-stap">Stap 1 van 3</p>
+        <h2 id="wizard-titel">…</h2>
+        <div id="wizard-inhoud"></div>
+      </div>
+    </section>
+
+    <!-- Vandaag -->
+    <section class="scherm stapel" id="scherm-vandaag" hidden aria-labelledby="vandaag-titel">
+      <h2 class="alleen-schermlezer" id="vandaag-titel">Vandaag</h2>
+      <div class="dierwissel" id="dierwissel" role="group" aria-label="Kies een dier"></div>
+      <div id="vandaag-inhoud" class="stapel"></div>
+    </section>
+
+    <!-- Handboek -->
+    <section class="scherm stapel" id="scherm-handboek" hidden aria-labelledby="handboek-titel">
+      <h2 id="handboek-titel">Handboek van A tot Z</h2>
+      <p class="gedempt" id="handboek-uitleg"></p>
+      <button type="button" class="kaart knop--vol" id="knop-medicijnwijzer" style="text-align:left;cursor:pointer;font:inherit;color:inherit">
+        <span class="rij">
+          <span class="kaart__emoji" aria-hidden="true">💊</span>
+          <span>
+            <strong>Medicijnwijzer</strong><br />
+            <span class="klein gedempt">Wat zit er in het doosje, en hoe geef je het?</span>
+          </span>
+        </span>
+      </button>
+      <label class="veld" for="az-zoek">
+        <span class="alleen-schermlezer">Zoek in het handboek</span>
+        <input type="search" id="az-zoek" placeholder="Zoek in het handboek…" autocomplete="off" />
+      </label>
+      <div class="az" id="az-lijst"></div>
+    </section>
+
+    <!-- Spelen -->
+    <section class="scherm stapel" id="scherm-spelen" hidden aria-labelledby="spelen-titel">
+      <h2 id="spelen-titel">Spelen</h2>
+      <div id="spelen-inhoud" class="stapel"></div>
+    </section>
+
+    <!-- Plakboek -->
+    <section class="scherm stapel" id="scherm-plakboek" hidden aria-labelledby="plakboek-titel">
+      <h2 id="plakboek-titel">Plakboek</h2>
+      <div id="plakboek-inhoud"></div>
+    </section>
+
+    <!-- Ik -->
+    <section class="scherm stapel" id="scherm-ik" hidden aria-labelledby="ik-titel">
+      <h2 id="ik-titel">Jouw dieren en instellingen</h2>
+      <div id="ik-inhoud" class="stapel"></div>
+    </section>
+
+  </main>
+
+  <nav class="onderbalk" id="onderbalk" aria-label="Hoofdmenu" hidden>
+    <button type="button" data-scherm="vandaag"><span aria-hidden="true">🏡</span>Vandaag</button>
+    <button type="button" data-scherm="handboek"><span aria-hidden="true">📖</span>Handboek</button>
+    <button type="button" data-scherm="spelen"><span aria-hidden="true">🧩</span>Spelen</button>
+    <button type="button" data-scherm="plakboek"><span aria-hidden="true">📒</span>Plakboek</button>
+    <button type="button" data-scherm="ik"><span aria-hidden="true">👤</span>Ik</button>
+  </nav>
+
+  <dialog class="blad" id="blad" aria-labelledby="blad-titel">
+    <div class="blad__kop">
+      <h2 id="blad-titel">…</h2>
+      <button type="button" class="icoonknop" id="blad-sluit" aria-label="Sluiten">✕</button>
+    </div>
+    <div class="blad__inhoud" id="blad-inhoud"></div>
+  </dialog>
+
+  <p class="toast" id="toast" role="status" aria-live="polite" hidden></p>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
